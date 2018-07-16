@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
@@ -20,8 +21,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.example.android.udacity_nanoand_bakeit.dummy.DummyContent;
 import com.example.android.udacity_nanoand_bakeit.utilities.NetworkUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.net.URL;
 import java.util.List;
@@ -34,7 +39,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class RecipeListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class RecipeListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, RecipeRecyclerAdapter.RecipeAdapterOnClickHandler {
 
     private static final String TAG ="GREG_RECIPELISTACTIVITY" ;
     /**
@@ -44,6 +49,10 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
     private boolean mTwoPane;
     private static final int MOVIE_LOADER_ID= 24;
     private String mRecipeData = null;
+
+    private RecyclerView recyclerView;
+    private RecipeRecyclerAdapter recipeRecyclerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +79,28 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        recyclerView = findViewById(R.id.recipe_list);
+        assert recyclerView != null;
+
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recipeRecyclerAdapter  = new RecipeRecyclerAdapter(this);
+        /* Setting the adapter attaches it to the RecyclerView in our layout. */
+
+
+        //Wait until data is loaded before setting up recycler view
+       // setupRecyclerView((RecyclerView) recyclerView);
         getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, RecipeListActivity.this );
 
-        View recyclerView = findViewById(R.id.recipe_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+       // recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this,  mTwoPane));
+        Log.d(TAG, "setupRecyclerView: *** Setting Adapter");
+        recyclerView.setAdapter(recipeRecyclerAdapter);
+
+        recipeRecyclerAdapter.setRecipeData("123");
     }
 
     @NonNull
@@ -131,7 +153,9 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String s) {
         Log.d(TAG, "onLoadFinished: data string is:" + s);
-
+        //Got data - so setup recycler view
+        RecipeJSON.setDataString(s);
+        setupRecyclerView( recyclerView);
     }
 
     @Override
@@ -139,11 +163,16 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
 
     }
 
+    @Override
+    public void onClick(int listPosition) {
+        Log.d(TAG, "RecipeListActivity onClick: pos=" + listPosition);
+    }
+
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final RecipeListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+       // private final RecipeJSON mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
@@ -168,9 +197,9 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
         };
 
         SimpleItemRecyclerViewAdapter(RecipeListActivity parent,
-                                      List<DummyContent.DummyItem> items,
                                       boolean twoPane) {
-            mValues = items;
+            //PREVIOUSLY, the data was passed in as 2nd param. Now it's being read from a static class
+           // mValues = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
@@ -184,26 +213,26 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mIdView.setText(RecipeJSON.getRecipeName(position));
+           // holder.mContentView.setText(RecipeJSON.getRecipeName(position));
 
-            holder.itemView.setTag(mValues.get(position));
+            //holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return RecipeJSON.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
-            final TextView mContentView;
+           // final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mIdView = (TextView) view.findViewById(R.id.recipe_name);
+               // mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
     }
