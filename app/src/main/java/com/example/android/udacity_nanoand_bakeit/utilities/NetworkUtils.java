@@ -51,7 +51,11 @@ public class NetworkUtils {
             } else {
                 return null;
             }
+        } catch (Exception e) {
+            Log.d("GGG", "NetworkUtils. getResponseFromHttpUrl: EXCEPTION:" + e.getMessage());
+            return null;
         } finally {
+
             urlConnection.disconnect();
         }
     }

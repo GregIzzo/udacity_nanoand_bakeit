@@ -10,6 +10,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
@@ -83,7 +84,9 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
         recyclerView = findViewById(R.id.recipe_list);
         assert recyclerView != null;
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
+       // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+
         recyclerView.setLayoutManager(mLayoutManager);
         recipeRecyclerAdapter  = new RecipeRecyclerAdapter(this);
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
