@@ -81,6 +81,39 @@ public class RecipeJSON {
         if (dataJSONArray == null) return 0;
         return dataJSONArray.length();
     }
+    public static String getIngredientsString(int position){
+        if (dataJSONArray == null) return "No Data";
+        if (position >= dataJSONArray.length()) return "No Data";
+        try {
+            JSONObject jobj =  dataJSONArray.getJSONObject(position);
+           return getIngredientsString(jobj);
+        } catch (JSONException e){
+            Log.d(TAG, "getIngredientsString: failed to create ingredient string");
+            return "No Data";
+        }
+    }
+    public static String getIngredientsString(JSONObject rObj){
+        try {
+
+
+            JSONArray ingList = rObj.getJSONArray("ingredients");
+            int len = ingList.length();
+            String ingrString = "";
+            for (int i = 0; i < len; i++) {
+                JSONObject ingObj = ingList.getJSONObject(i);
+                if (i == 0) {
+                    ingrString = ingObj.getString("ingredient");
+                } else {
+                    ingrString = ingrString + ", " + ingObj.getString("ingredient");
+                }
+            }
+            return ingrString;
+        } catch (JSONException e){
+            Log.d(TAG, "getIngredientsString: failed to create ingredient string");
+            return "No Data";
+
+        }
+    }
     private static String staticData = "[\n" +
             "  {\n" +
             "    \"id\": 1,\n" +

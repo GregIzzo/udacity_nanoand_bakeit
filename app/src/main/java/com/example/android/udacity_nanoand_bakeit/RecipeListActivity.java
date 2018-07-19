@@ -169,8 +169,24 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
     @Override
     public void onClick(int listPosition) {
         Log.d(TAG, "RecipeListActivity onClick: pos=" + listPosition);
-    }
+        if (mTwoPane) {
+            Bundle arguments = new Bundle();
+            arguments.putInt(RecipeDetailFragment.ARG_ITEM_ID, listPosition);
+            RecipeDetailFragment fragment = new RecipeDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.recipe_detail_container, fragment)
+                    .commit();
+        } else {
 
+            Intent intent = new Intent(this, RecipeDetailActivity.class);
+            intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, listPosition);
+
+            startActivity(intent);
+        }
+
+    }
+/*
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -239,4 +255,6 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
             }
         }
     }
+
+    */
 }
