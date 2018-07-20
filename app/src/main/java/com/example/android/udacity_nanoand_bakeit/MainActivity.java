@@ -1,6 +1,5 @@
 package com.example.android.udacity_nanoand_bakeit;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,28 +8,19 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
-import com.example.android.udacity_nanoand_bakeit.dummy.DummyContent;
 import com.example.android.udacity_nanoand_bakeit.utilities.NetworkUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.net.URL;
-import java.util.List;
 
 /**
  * An activity representing a list of Recipes. This activity
@@ -40,7 +30,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class RecipeListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, RecipeRecyclerAdapter.RecipeAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, RecipeRecyclerAdapter.RecipeAdapterOnClickHandler {
 
     private static final String TAG ="GREG_RECIPELISTACTIVITY" ;
     /**
@@ -94,7 +84,7 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
 
         //Wait until data is loaded before setting up recycler view
        // setupRecyclerView((RecyclerView) recyclerView);
-        getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, RecipeListActivity.this );
+        getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this );
 
     }
 
@@ -168,7 +158,7 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onClick(int listPosition) {
-        Log.d(TAG, "RecipeListActivity onClick: pos=" + listPosition);
+        Log.d(TAG, "MainActivity onClick: pos=" + listPosition);
         if (mTwoPane) {
             Bundle arguments = new Bundle();
             arguments.putInt(RecipeDetailFragment.ARG_ITEM_ID, listPosition);
@@ -190,7 +180,7 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final RecipeListActivity mParentActivity;
+        private final MainActivity mParentActivity;
        // private final RecipeJSON mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -215,7 +205,7 @@ public class RecipeListActivity extends AppCompatActivity implements LoaderManag
             }
         };
 
-        SimpleItemRecyclerViewAdapter(RecipeListActivity parent,
+        SimpleItemRecyclerViewAdapter(MainActivity parent,
                                       boolean twoPane) {
             //PREVIOUSLY, the data was passed in as 2nd param. Now it's being read from a static class
            // mValues = items;

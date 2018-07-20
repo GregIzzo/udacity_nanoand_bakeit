@@ -40,8 +40,8 @@ public class NetworkUtils {
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         //based on NetworkUtils.java from Udacity Google Challenge S05.01
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        Log.d("GGG", "getResponseFromHttpUrl:***starting******* ");
         try {
-            Log.d("GGG", "getResponseFromHttpUrl:********** ");
             InputStream inStream = urlConnection.getInputStream();
             Scanner scanner = new Scanner(inStream);
             scanner.useDelimiter("\\A");
