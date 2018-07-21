@@ -16,52 +16,55 @@ import org.json.JSONObject;
 /**
  * A fragment representing a single Recipe detail screen.
  * This fragment is either contained in a {@link MainActivity}
- * in two-pane mode (on tablets) or a {@link RecipeDetailActivity}
+ * in two-pane mode (on tablets) or a {@link RecipeStepsActivity}
  * on handsets.
  */
-public class RecipeDetailFragment extends Fragment {
+public class RecipeStepsFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_RECIPE_INDEX = "recipe_index";
 
 
     private JSONObject myJsonObject;
-    private int recipeOffset;
+    //private int recipeOffset;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public RecipeDetailFragment() {
+    public RecipeStepsFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            //offset into Recipe data is passed in. Make calls to RecipeJSON class for data
-            recipeOffset = getArguments().getInt(ARG_ITEM_ID);
-            myJsonObject = RecipeJSON.getRecipe(recipeOffset);
+        //RecipeJSON should have a 'current recipe;
+
+     //   if (getArguments().containsKey(ARG_RECIPE_INDEX)) {
+            // the offset into Recipe data is passed in. Make calls to RecipeJSON class for data
+           // recipeOffset = getArguments().getInt(ARG_RECIPE_INDEX);
+           // myJsonObject = RecipeJSON.getRecipe(recipeOffset);
+        myJsonObject = RecipeJSON.getCurrentRecipe();
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(RecipeJSON.getRecipeName(recipeOffset));
+                appBarLayout.setTitle(RecipeJSON.getCurrRecipeName());
             }
-        }
+     //   }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recipe_detail, container, false);
+        View rootView = inflater.inflate(R.layout.recipesteps_detail, container, false);
 
 
         if (myJsonObject != null) {
-            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(RecipeJSON.getIngredientsString(myJsonObject));
+            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(RecipeJSON.getCurrIngredientsString());
         }
 
         return rootView;

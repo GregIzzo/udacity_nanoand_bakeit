@@ -12,5 +12,5 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:textIsSelectable="true"
-    tools:context="com.example.android.udacity_nanoand_bakeit.RecipeDetailFragment" />
+    tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsFragment" />
 </ScrollView>

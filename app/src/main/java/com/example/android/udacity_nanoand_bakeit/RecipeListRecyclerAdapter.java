@@ -15,16 +15,12 @@ import android.widget.TextView;
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by Greg on 5/15/2018.
  */
-public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.RecipeAdapterViewHolder> {
+public class RecipeListRecyclerAdapter extends RecyclerView.Adapter<RecipeListRecyclerAdapter.RecipeAdapterViewHolder> {
 
-    //private static final String TAG = RecipeRecyclerAdapter.class.getSimpleName();
+    //private static final String TAG = RecipeListRecyclerAdapter.class.getSimpleName();
     //private int mNumberOfItems;
     private String recipeJsonData;
     private final RecipeAdapterOnClickHandler mClickHandler;
@@ -38,9 +34,9 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         void onClick(int listPosition);// throws JSONException;
     }
     /*
-     * Constructor for RecipeRecyclerAdapter - accepts number of items to display
+     * Constructor for RecipeListRecyclerAdapter - accepts number of items to display
      */
-    public RecipeRecyclerAdapter(RecipeAdapterOnClickHandler mclick) {
+    public RecipeListRecyclerAdapter(RecipeAdapterOnClickHandler mclick) {
         // mNumberOfItems = numberOfItems;
         mClickHandler = mclick;
     }
@@ -92,10 +88,10 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     public RecipeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
         viewGroupContext = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.recipe_list_content;
+        int layoutIdForListItem = R.layout.recipes_list_content;
         LayoutInflater inflater = LayoutInflater.from(viewGroupContext);
 // View view = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.recipe_list_content, parent, false);
+//                    .inflate(R.layout.recipes_list_content, parent, false);
         View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
         return new RecipeAdapterViewHolder(view);
     }
@@ -166,7 +162,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         if (recipeData == null){
             // reader = null;
             resArray = null;
-            //   Log.i(TAG, "**** RecipeRecyclerAdapter.setRecipeData: str len= 0 calling notifyDataSetChanged");
+            //   Log.i(TAG, "**** RecipeListRecyclerAdapter.setRecipeData: str len= 0 calling notifyDataSetChanged");
         } else {
             try {
                 resArray = new JSONArray(recipeJsonData);
@@ -175,7 +171,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
                 //   Log.i(TAG, "^^^^^^^^^ ERROR onBindViewHolder - creating JSONObject");
                 e.printStackTrace();
             }
-            // Log.i(TAG, "**** RecipeRecyclerAdapter.setRecipeData: str len= "+recipeData.length() + " calling notifyDataSetChanged");
+            // Log.i(TAG, "**** RecipeListRecyclerAdapter.setRecipeData: str len= "+recipeData.length() + " calling notifyDataSetChanged");
         }
 */
 

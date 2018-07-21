@@ -7,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RecipeJSON {
-    private static JSONArray dataJSONArray = null;
+    private static JSONArray dataJSONArray = null;//array of recipe objects
+    private static JSONObject currentRecipe = null;// currently selected recipe
+
     private static String TAG = "RecipeJSON";
 
     public static JSONArray getData() {
@@ -32,8 +34,26 @@ public class RecipeJSON {
         }
 
     }
+    public static int setCurrentRecipe(int position){
+        // pass in list offset to pick the current recipe
+        // Return value: 1=okay/done, 0=not done/error
+        if (dataJSONArray == null) return 0 ;
+        if (position >= dataJSONArray.length()) return 0;
+        try {
+            currentRecipe = dataJSONArray.getJSONObject(position);
+            return 1;
+        } catch (JSONException e){
+            //a problem happened
+            Log.d(TAG, "setCurrentRecipe: problem:"+ e.getLocalizedMessage());
+            return 0;
+        }
+    }
+    public static JSONObject getCurrentRecipe(){
+        return currentRecipe;
+    }
     public static JSONObject getRecipe(int position){
         if (dataJSONArray == null) return null;
+
         try {
             return dataJSONArray.getJSONObject(position);
         } catch (JSONException e){
@@ -77,6 +97,49 @@ public class RecipeJSON {
             return -1;
         }
     }
+    /* ******************************************************************************* */
+    private static String getCurrStringProperty( String sName){
+        if (dataJSONArray == null) return "";
+        if (currentRecipe == null) return "";
+        try {
+            return currentRecipe.getString(sName);
+        } catch (JSONException e){
+            Log.i(TAG, "getCurrStringProperty: failed to get string ("+sName+")  from currentRecipe");
+            return "";
+        }
+    }
+    private static int getCurrIntProperty( String sName){
+        if (dataJSONArray == null) return -1;
+        if (currentRecipe == null) return -1;
+        try {
+            return currentRecipe.getInt(sName);
+        } catch (JSONException e){
+            Log.i(TAG, "getCurrIntProperty: failed to get int ("+sName+")   from currentRecipe");
+            return -1;
+        }
+    }
+    public static String getCurrIngredientsString(){
+        if (dataJSONArray == null) return "No Data";
+        if (currentRecipe == null) return  "No Data";
+        return getIngredientsString(currentRecipe);
+    }
+    public static String getCurrRecipeId(){
+        //get ID from CurrentRecipe
+        return getCurrStringProperty("id");
+    }
+    public static String getCurrRecipeName(){
+        //get Name from currentRecipe
+        return getCurrStringProperty("name");
+    }
+    public static String getCurrRecipeImage() {
+        return getCurrStringProperty("image");
+    }
+    public static int getCurrRecipeServings(){
+        return getCurrIntProperty( "servings");
+    }
+
+    /* ******************************************************************************* */
+
     public static int size(){
         if (dataJSONArray == null) return 0;
         return dataJSONArray.length();
@@ -94,8 +157,6 @@ public class RecipeJSON {
     }
     public static String getIngredientsString(JSONObject rObj){
         try {
-
-
             JSONArray ingList = rObj.getJSONArray("ingredients");
             int len = ingList.length();
             String ingrString = "";

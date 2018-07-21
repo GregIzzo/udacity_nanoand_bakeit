@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
@@ -16,12 +17,13 @@ import android.view.MenuItem;
  * item details are presented side-by-side with a list of items
  * in a {@link MainActivity}.
  */
-public class RecipeDetailActivity extends AppCompatActivity {
+public class RecipeStepsActivity extends AppCompatActivity {
 
+    private static String TAG = "GGG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_detail);
+        setContentView(R.layout.activity_recipesteps_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -52,11 +54,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(RecipeDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(RecipeDetailFragment.ARG_ITEM_ID));
-            RecipeDetailFragment fragment = new RecipeDetailFragment();
-            fragment.setArguments(arguments);
+            Log.d(TAG, "RecipeStepsActivity.onCreate expected recipe index:" + getIntent().getIntExtra(RecipeStepsFragment.ARG_RECIPE_INDEX,0));
+           // Bundle arguments = new Bundle();
+            //no bundle needed. Recipe info is in RecipeJSON (
+            //arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX,
+            //        getIntent().getIntExtra(RecipeStepsFragment.ARG_RECIPE_INDEX,0));
+
+            RecipeStepsFragment fragment = new RecipeStepsFragment();
+           // fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();

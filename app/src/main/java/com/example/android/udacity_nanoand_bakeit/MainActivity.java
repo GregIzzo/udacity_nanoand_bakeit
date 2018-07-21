@@ -26,29 +26,29 @@ import java.net.URL;
  * An activity representing a list of Recipes. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link RecipeDetailActivity} representing
+ * lead to a {@link RecipeStepsActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, RecipeRecyclerAdapter.RecipeAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, RecipeListRecyclerAdapter.RecipeAdapterOnClickHandler {
 
     private static final String TAG ="GREG_RECIPELISTACTIVITY" ;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private boolean mTwoPane;
+    //private boolean mTwoPane;
     private static final int MOVIE_LOADER_ID= 24;
     private String mRecipeData = null;
 
     private RecyclerView recyclerView;
-    private RecipeRecyclerAdapter recipeRecyclerAdapter;
+    private RecipeListRecyclerAdapter recipeRecyclerAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_list);
+        setContentView(R.layout.activity_recipes_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         .setAction("Action", null).show();
             }
         });
-
+/*
         if (findViewById(R.id.recipe_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
+*/
         recyclerView = findViewById(R.id.recipe_list);
         assert recyclerView != null;
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(mLayoutManager);
-        recipeRecyclerAdapter  = new RecipeRecyclerAdapter(this);
+        recipeRecyclerAdapter  = new RecipeListRecyclerAdapter(this);
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
 
 
@@ -159,92 +159,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onClick(int listPosition) {
         Log.d(TAG, "MainActivity onClick: pos=" + listPosition);
+        /*
         if (mTwoPane) {
             Bundle arguments = new Bundle();
-            arguments.putInt(RecipeDetailFragment.ARG_ITEM_ID, listPosition);
-            RecipeDetailFragment fragment = new RecipeDetailFragment();
+            arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+            RecipeStepsFragment fragment = new RecipeStepsFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.recipe_detail_container, fragment)
                     .commit();
         } else {
-
-            Intent intent = new Intent(this, RecipeDetailActivity.class);
-            intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, listPosition);
+*/
+        RecipeJSON.setCurrentRecipe(listPosition);
+            Intent intent = new Intent(this, RecipeStepsActivity.class);
+        //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
 
             startActivity(intent);
-        }
-
-    }
 /*
-    public static class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-
-        private final MainActivity mParentActivity;
-       // private final RecipeJSON mValues;
-        private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                if (mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, item.id);
-                    RecipeDetailFragment fragment = new RecipeDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.recipe_detail_container, fragment)
-                            .commit();
-                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, RecipeDetailActivity.class);
-                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, item.id);
-
-                    context.startActivity(intent);
-                }
-            }
-        };
-
-        SimpleItemRecyclerViewAdapter(MainActivity parent,
-                                      boolean twoPane) {
-            //PREVIOUSLY, the data was passed in as 2nd param. Now it's being read from a static class
-           // mValues = items;
-            mParentActivity = parent;
-            mTwoPane = twoPane;
         }
+        */
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recipe_list_content, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(RecipeJSON.getRecipeName(position));
-           // holder.mContentView.setText(RecipeJSON.getRecipeName(position));
-
-            //holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
-        }
-
-        @Override
-        public int getItemCount() {
-            return RecipeJSON.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
-           // final TextView mContentView;
-
-            ViewHolder(View view) {
-                super(view);
-                mIdView = (TextView) view.findViewById(R.id.recipe_name);
-               // mContentView = (TextView) view.findViewById(R.id.content);
-            }
-        }
     }
-
-    */
 }
