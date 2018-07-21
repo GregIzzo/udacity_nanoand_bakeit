@@ -137,6 +137,77 @@ public class RecipeJSON {
     public static int getCurrRecipeServings(){
         return getCurrIntProperty( "servings");
     }
+    public static int getCurrRecipeStepCount(){
+        if (dataJSONArray == null) return 0;
+        if (currentRecipe == null) return  0 ;
+        JSONArray recipeSteps = null;
+        try{
+            recipeSteps = currentRecipe.getJSONArray("steps");
+            return recipeSteps.length();
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeStepCount: JSON ERROR:" + e.getLocalizedMessage());
+            return 0;
+        }
+
+    }
+    public static JSONArray getCurrRecipeSteps(){
+        if (dataJSONArray == null) return new JSONArray();
+        if (currentRecipe == null) return  new JSONArray();
+        try{
+            return currentRecipe.getJSONArray("steps");
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeSteps: JSON ERROR:" + e.getLocalizedMessage());
+            return new JSONArray();
+        }
+    }
+    public static int getCurrRecipeStepId(int stepNum){
+        return getCurrRecipeStepInt(stepNum, "id");
+     }
+    public static String getCurrRecipeStepShortDescription(int stepNum){
+        return getCurrRecipeStepString(stepNum, "shortDescription");
+    }
+    public static String getCurrRecipeStepDescription(int stepNum){
+        return getCurrRecipeStepString(stepNum, "description");
+    }
+    public static String getCurrRecipeStepVideoURL(int stepNum){
+        return getCurrRecipeStepString(stepNum, "videoURL");
+    }
+    public static String getCurrRecipeStepThumbnailURL(int stepNum){
+        return getCurrRecipeStepString(stepNum, "thumbnailURL");
+    }
+
+    public static String getCurrRecipeStepString(int stepNum, String key){
+        if (dataJSONArray == null) return "";
+        if (currentRecipe == null) return "";
+        try{
+            JSONArray steps = currentRecipe.getJSONArray("steps");
+            if (stepNum <= steps.length()){
+                return steps.getJSONObject(stepNum).getString(key);
+            } else {
+                return "";
+            }
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeStepString: stepnum:"+stepNum+" key:"+key+" JSON ERROR:" + e.getLocalizedMessage());
+            return "";
+        }
+
+    }
+    public static int getCurrRecipeStepInt(int stepNum, String key){
+        if (dataJSONArray == null) return -1;
+        if (currentRecipe == null) return -1;
+        try{
+            JSONArray steps = currentRecipe.getJSONArray("steps");
+            if (stepNum <= steps.length()){
+                return steps.getJSONObject(stepNum).getInt(key);
+            } else {
+                return -1;
+            }
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeStepInt: stepnum:"+stepNum+" key:"+key+" JSON ERROR:" + e.getLocalizedMessage());
+            return -1;
+        }
+
+    }
 
     /* ******************************************************************************* */
 

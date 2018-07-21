@@ -62,9 +62,13 @@ public class RecipeStepsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipesteps_detail, container, false);
 
-
         if (myJsonObject != null) {
-            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(RecipeJSON.getCurrIngredientsString());
+            int stepCount = RecipeJSON.getCurrRecipeStepCount();
+            String out = "";
+            for (int i=0; i< stepCount; i++){
+                out += "Step:" + RecipeJSON.getCurrRecipeStepId(i) + " - [" + RecipeJSON.getCurrRecipeStepShortDescription(i) + "] "+ RecipeJSON.getCurrRecipeStepDescription(i);
+            }
+            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(out);
         }
 
         return rootView;

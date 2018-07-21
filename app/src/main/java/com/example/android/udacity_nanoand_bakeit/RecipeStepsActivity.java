@@ -11,13 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
+
 /**
  * An activity representing a single Recipe detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link MainActivity}.
  */
-public class RecipeStepsActivity extends AppCompatActivity {
+public class RecipeStepsActivity extends AppCompatActivity implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler{
 
     private static String TAG = "GGG";
     @Override
@@ -54,7 +56,7 @@ public class RecipeStepsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Log.d(TAG, "RecipeStepsActivity.onCreate expected recipe index:" + getIntent().getIntExtra(RecipeStepsFragment.ARG_RECIPE_INDEX,0));
+            Log.d(TAG, "RecipeStepsActivity.onCreate. Number of steps=" );
            // Bundle arguments = new Bundle();
             //no bundle needed. Recipe info is in RecipeJSON (
             //arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX,
@@ -82,5 +84,16 @@ public class RecipeStepsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(int listPosition) {
+        Log.d(TAG, "RecipeStepsActivitty onClick: pos=" + listPosition);
+
+       // RecipeJSON.setCurrentRecipe(listPosition);
+        //Intent intent = new Intent(this, RecipeStepsActivity.class);
+        //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+
+        //startActivity(intent);
     }
 }
