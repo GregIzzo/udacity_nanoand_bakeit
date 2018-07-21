@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,11 @@ import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 public class RecipeStepsActivity extends AppCompatActivity implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler{
 
     private static String TAG = "GGG";
+
+    private RecyclerView recyclerView;
+    private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,19 +63,33 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Log.d(TAG, "RecipeStepsActivity.onCreate. Number of steps=" );
+            Log.d(TAG, "RecipeStepsActivity.onCreate. Number of steps=" + RecipeJSON.getCurrRecipeStepCount() );
            // Bundle arguments = new Bundle();
             //no bundle needed. Recipe info is in RecipeJSON (
             //arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX,
             //        getIntent().getIntExtra(RecipeStepsFragment.ARG_RECIPE_INDEX,0));
 
+            /*
             RecipeStepsFragment fragment = new RecipeStepsFragment();
            // fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();
+             */
+            recyclerView = findViewById(R.id.steps_list);
+            assert recyclerView != null;
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            if (mLayoutManager == null) Log.d(TAG, "onCreate: LAYOUTMANAGER IS NULL");
+            recyclerView.setLayoutManager(mLayoutManager);
+            recipeStepsRecyclerAdapter = new RecipeStepsRecyclerAdapter(this);
+            recyclerView.setAdapter(recipeStepsRecyclerAdapter);
+            recipeStepsRecyclerAdapter.setRecipeData("123");
+
         }
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
