@@ -25,8 +25,8 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
 
     private static String TAG = "GGG";
 
-    private RecyclerView recyclerView;
-    private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
+   //G private RecyclerView recyclerView;
+    // private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
 
 
     @Override
@@ -69,13 +69,13 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             //arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX,
             //        getIntent().getIntExtra(RecipeStepsFragment.ARG_RECIPE_INDEX,0));
 
-            /*
+
             RecipeStepsFragment fragment = new RecipeStepsFragment();
            // fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();
-             */
+ /* G
             recyclerView = findViewById(R.id.steps_list);
             assert recyclerView != null;
 
@@ -85,7 +85,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             recipeStepsRecyclerAdapter = new RecipeStepsRecyclerAdapter(this);
             recyclerView.setAdapter(recipeStepsRecyclerAdapter);
             recipeStepsRecyclerAdapter.setRecipeData("123");
-
+*/
         }
     }
 

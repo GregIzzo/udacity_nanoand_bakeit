@@ -44,13 +44,28 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
 
     public class RecipeStepsAdapterViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
 
-        public final ImageView listItemRecipeImageView;
-        public final TextView listItemRecipeName;
+       // public final ImageView listItemRecipeImageView;
+      //  public final TextView listItemRecipeName;
+
+        public final TextView stepId;
+        public final TextView stepShortDesc;
+        public final TextView stepLongDesc;
+        public final TextView stepVideoURL;
+        public final TextView stepImageURL;
+
 
         public RecipeStepsAdapterViewHolder( View itemView) {
             super(itemView);
-            listItemRecipeImageView =  itemView.findViewById(R.id.iv_recipe_image);
-            listItemRecipeName = itemView.findViewById(R.id.recipe_name);
+           // listItemRecipeImageView =  itemView.findViewById(R.id.iv_recipe_image);
+           // listItemRecipeName = itemView.findViewById(R.id.recipe_name);
+
+            stepId = itemView.findViewById(R.id.tv_recipe_id);
+            stepShortDesc = itemView.findViewById(R.id.tv_recipe_shortdescription);
+            stepLongDesc = itemView.findViewById(R.id.tv_recipe_description);
+            stepVideoURL = itemView.findViewById(R.id.tv_recipe_videourl);
+            stepImageURL = itemView.findViewById(R.id.tv_recipe_imageurl);
+
+
             itemView.setOnClickListener(this);
         }
 
@@ -88,7 +103,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
     public RecipeStepsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
         viewGroupContext = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.recipes_list_content;
+        int layoutIdForListItem = R.layout.recipesteps_detail;// R.layout.recipes_list_content;
         LayoutInflater inflater = LayoutInflater.from(viewGroupContext);
 // View view = LayoutInflater.from(parent.getContext())
 //                    .inflate(R.layout.recipes_list_content, parent, false);
@@ -115,12 +130,26 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
         //   try {
         // JSONObject jObj = resArray.getJSONObject(position);
         // JSONObject jsonObject = RecipeJSON.getRecipe(position);
-        String imagePath = RecipeJSON.getRecipeImage(position);
+        //String imagePath = RecipeJSON.getRecipeImage(position);
 
         //String imurl = "https://image.tmdb.org/t/p/w500" + posterPath;
-        RecipeStepsAdapterViewHolder.listItemRecipeName.setText(RecipeJSON.getRecipeName(position));
-        Log.d("ZZZZ", "onBindViewHolder: imagePath=["+imagePath+"]");
-
+      //  RecipeStepsAdapterViewHolder.listItemRecipeName.setText(RecipeJSON.getRecipeName(position));
+    if (position == 0) {
+        //Position 0 is the 'Ingredients' step
+        RecipeStepsAdapterViewHolder.stepId.setText("");
+        RecipeStepsAdapterViewHolder.stepShortDesc.setText(R.string.ingredient_step);
+        RecipeStepsAdapterViewHolder.stepLongDesc.setText("");
+        RecipeStepsAdapterViewHolder.stepVideoURL.setText("");
+        RecipeStepsAdapterViewHolder.stepImageURL.setText("");
+    } else {
+        int step = position -1;
+        RecipeStepsAdapterViewHolder.stepId.setText("" + RecipeJSON.getCurrRecipeStepId(step));
+        RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
+        RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
+        RecipeStepsAdapterViewHolder.stepVideoURL.setText(RecipeJSON.getCurrRecipeStepVideoURL(step));
+        RecipeStepsAdapterViewHolder.stepImageURL.setText(RecipeJSON.getCurrRecipeStepThumbnailURL(step));
+    }
+        /*
         if (imagePath != null && imagePath.length() > 0) {
             Log.d("ZZZZ", "onBindViewHolder: ABOUT TO RUN PICASSO. impagePath.length="+ imagePath.length());
             Picasso.get()
@@ -129,6 +158,9 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
                     .error(R.mipmap.recipe_200x200)
                     .into(RecipeStepsAdapterViewHolder.listItemRecipeImageView);
         }
+        */
+
+
         // holder.mContentView.setText(RecipeJSON.getRecipeName(position));
 
         //holder.itemView.setTag(mValues.get(position));
@@ -141,7 +173,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
 
     @Override
     public int getItemCount() {
-        return RecipeJSON.size();
+        return RecipeJSON.size() + 1; //Adding 1 to allow 'ingredients' to appear in first position
 
     }
 

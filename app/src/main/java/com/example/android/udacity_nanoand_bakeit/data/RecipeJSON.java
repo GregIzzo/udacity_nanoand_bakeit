@@ -161,6 +161,7 @@ public class RecipeJSON {
         }
     }
     public static int getCurrRecipeStepId(int stepNum){
+        Log.d(TAG, "getCurrRecipeStepId: stepnum=" + stepNum+" ["+getCurrRecipeStepInt(stepNum, "id")+"]");
         return getCurrRecipeStepInt(stepNum, "id");
      }
     public static String getCurrRecipeStepShortDescription(int stepNum){

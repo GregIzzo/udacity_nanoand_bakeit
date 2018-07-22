@@ -1,9 +1,14 @@
 package com.example.android.udacity_nanoand_bakeit;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +24,15 @@ import org.json.JSONObject;
  * in two-pane mode (on tablets) or a {@link RecipeStepsActivity}
  * on handsets.
  */
-public class RecipeStepsFragment extends Fragment {
+public class RecipeStepsFragment extends Fragment  implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler{
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
     public static final String ARG_RECIPE_INDEX = "recipe_index";
+    private static final String TAG = "GGG";
+    private RecyclerView recyclerView;
+    private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
 
 
     private JSONObject myJsonObject;
@@ -60,8 +68,20 @@ public class RecipeStepsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recipesteps_detail, container, false);
+        View rootView = inflater.inflate(R.layout.steps_list, container, false);
 
+        recyclerView = rootView.findViewById(R.id.steps_list);
+        assert recyclerView != null;
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        if (mLayoutManager == null) Log.d(TAG, "onCreate: LAYOUTMANAGER IS NULL");
+        recyclerView.setLayoutManager(mLayoutManager);
+        recipeStepsRecyclerAdapter = new RecipeStepsRecyclerAdapter(this);
+        recyclerView.setAdapter(recipeStepsRecyclerAdapter);
+        recipeStepsRecyclerAdapter.setRecipeData("123");
+
+
+/*
         if (myJsonObject != null) {
             int stepCount = RecipeJSON.getCurrRecipeStepCount();
             String out = "";
@@ -70,7 +90,21 @@ public class RecipeStepsFragment extends Fragment {
             }
             ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(out);
         }
-
+*/
         return rootView;
+    }
+
+    @Override
+    public void onClick(int listPosition) {
+        Log.d(TAG, "onClick: step list position =" + listPosition);
+
+        if (listPosition == 0){
+            //ingredients
+
+        } else {
+            Intent intent = new Intent(getActivity(), StepDetailActivity.class);
+            //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+            startActivity(intent);
+        }
     }
 }
