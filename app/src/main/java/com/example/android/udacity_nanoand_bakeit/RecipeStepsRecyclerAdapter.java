@@ -49,9 +49,9 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
 
         public final TextView stepId;
         public final TextView stepShortDesc;
-        public final TextView stepLongDesc;
-        public final TextView stepVideoURL;
-        public final TextView stepImageURL;
+        //public final TextView stepLongDesc;
+        //public final TextView stepVideoURL;
+      //  public final TextView stepImageURL;
 
 
         public RecipeStepsAdapterViewHolder( View itemView) {
@@ -61,9 +61,9 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
 
             stepId = itemView.findViewById(R.id.tv_recipe_id);
             stepShortDesc = itemView.findViewById(R.id.tv_recipe_shortdescription);
-            stepLongDesc = itemView.findViewById(R.id.tv_recipe_description);
-            stepVideoURL = itemView.findViewById(R.id.tv_recipe_videourl);
-            stepImageURL = itemView.findViewById(R.id.tv_recipe_imageurl);
+           // stepLongDesc = itemView.findViewById(R.id.tv_recipe_description);
+           // stepVideoURL = itemView.findViewById(R.id.tv_recipe_videourl);
+           // stepImageURL = itemView.findViewById(R.id.tv_recipe_imageurl);
 
 
             itemView.setOnClickListener(this);
@@ -136,18 +136,18 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
       //  RecipeStepsAdapterViewHolder.listItemRecipeName.setText(RecipeJSON.getRecipeName(position));
     if (position == 0) {
         //Position 0 is the 'Ingredients' step
-        RecipeStepsAdapterViewHolder.stepId.setText("");
+      // RecipeStepsAdapterViewHolder.stepId.setText("");
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(R.string.ingredient_step);
-        RecipeStepsAdapterViewHolder.stepLongDesc.setText("");
-        RecipeStepsAdapterViewHolder.stepVideoURL.setText("");
-        RecipeStepsAdapterViewHolder.stepImageURL.setText("");
+       // RecipeStepsAdapterViewHolder.stepLongDesc.setText("");
+      //  RecipeStepsAdapterViewHolder.stepVideoURL.setText("");
+       // RecipeStepsAdapterViewHolder.stepImageURL.setText("");
     } else {
         int step = position -1;
-        RecipeStepsAdapterViewHolder.stepId.setText("" + RecipeJSON.getCurrRecipeStepId(step));
+        RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)+1));
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
-        RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
-        RecipeStepsAdapterViewHolder.stepVideoURL.setText(RecipeJSON.getCurrRecipeStepVideoURL(step));
-        RecipeStepsAdapterViewHolder.stepImageURL.setText(RecipeJSON.getCurrRecipeStepThumbnailURL(step));
+       // RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
+       // RecipeStepsAdapterViewHolder.stepVideoURL.setText(RecipeJSON.getCurrRecipeStepVideoURL(step));
+       // RecipeStepsAdapterViewHolder.stepImageURL.setText(RecipeJSON.getCurrRecipeStepThumbnailURL(step));
     }
         /*
         if (imagePath != null && imagePath.length() > 0) {

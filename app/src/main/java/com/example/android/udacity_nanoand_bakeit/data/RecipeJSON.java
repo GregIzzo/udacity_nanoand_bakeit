@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class RecipeJSON {
     private static JSONArray dataJSONArray = null;//array of recipe objects
     private static JSONObject currentRecipe = null;// currently selected recipe
-
+    private static int currentRecipeStepNum =0;
     private static String TAG = "RecipeJSON";
 
     public static JSONArray getData() {
@@ -50,6 +50,17 @@ public class RecipeJSON {
     }
     public static JSONObject getCurrentRecipe(){
         return currentRecipe;
+    }
+    public static void setCurrentRecipeStep(int whatStep) {
+        currentRecipeStepNum =0;
+        if (dataJSONArray != null && currentRecipe != null){
+            if (whatStep < getCurrRecipeStepCount()){
+                currentRecipeStepNum = whatStep;
+            }
+        }
+    }
+    public static int getCurrentRecipeStepNum(){
+        return currentRecipeStepNum;
     }
     public static JSONObject getRecipe(int position){
         if (dataJSONArray == null) return null;
@@ -209,7 +220,50 @@ public class RecipeJSON {
         }
 
     }
+    public static String getCurrRecipeIngredientString(int offset, String key){
+        if (dataJSONArray == null) return "";
+        if (currentRecipe == null) return "";
+        try{
+            JSONArray steps = currentRecipe.getJSONArray("ingredients");
+            if (offset <= steps.length()){
+                return steps.getJSONObject(offset).getString(key);
+            } else {
+                return "";
+            }
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeIngredientString: offset:"+offset+" key:"+key+" JSON ERROR:" + e.getLocalizedMessage());
+            return "";
+        }
 
+    }
+
+    public static int getCurrRecipeIngredientInt(int offset, String key){
+        if (dataJSONArray == null) return -1;
+        if (currentRecipe == null) return -1;
+        try {
+            JSONArray ingredientList = currentRecipe.getJSONArray("ingredients");
+            if (offset <= ingredientList.length()){
+                return ingredientList.getJSONObject(offset).getInt(key);
+            } else {
+                return -1;
+            }
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeIngredientInt: offset:"+offset+" key:"+key+" JSON ERROR:" + e.getLocalizedMessage());
+            return -1;
+        }
+    }
+    public static int getCurrRecipeIngredientsCount(){
+        if (dataJSONArray == null) return 0;
+        if (currentRecipe == null) return 0;
+        try {
+            JSONArray ingredientList = currentRecipe.getJSONArray("ingredients");
+           return ingredientList.length();
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeIngredientsCount:  JSON ERROR:" + e.getLocalizedMessage());
+            return 0;
+        }
+
+    }
     /* ******************************************************************************* */
 
     public static int size(){

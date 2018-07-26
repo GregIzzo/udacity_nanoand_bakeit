@@ -41,6 +41,14 @@
 
 
         </activity>
+        <activity android:name=".ingredient_list_activity"
+            android:label="Ingredient List"
+            android:parentActivityName=".RecipeStepsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
+        </activity>
 
     </application>
 

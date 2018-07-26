@@ -100,8 +100,10 @@ public class RecipeStepsFragment extends Fragment  implements RecipeStepsRecycle
 
         if (listPosition == 0){
             //ingredients
-
+            Intent intent = new Intent(getActivity(), ingredient_list_activity.class);
+            startActivity(intent);
         } else {
+            RecipeJSON.setCurrentRecipeStep(listPosition-1);
             Intent intent = new Intent(getActivity(), StepDetailActivity.class);
             //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
             startActivity(intent);

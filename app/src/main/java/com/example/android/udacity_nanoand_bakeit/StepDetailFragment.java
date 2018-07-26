@@ -64,7 +64,10 @@ public class StepDetailFragment extends Fragment  implements RecipeStepsRecycler
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
-
+        //tv_stepinstructions
+        String s = RecipeJSON.getCurrRecipeStepDescription(RecipeJSON.getCurrentRecipeStepNum());
+        TextView tv = rootView.findViewById(R.id.tv_stepinstructions);
+        tv.setText(s);
 
 
         return rootView;
