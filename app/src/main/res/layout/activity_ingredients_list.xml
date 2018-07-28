@@ -1,12 +1,13 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.android.udacity_nanoand_bakeit.ingredient_list_activity"
-    tools:ignore="MergeRootFrame">
-
+    tools:context="com.example.android.udacity_nanoand_bakeit.IngredientListActivity"
+    tools:ignore="MergeRootFrame"
+>
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -34,19 +35,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/backgroundLight">
-        <LinearLayout
-            android:id="@+id/list_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+        android:layout_height="match_parent"
+        android:background="@color/backgroundLight"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </LinearLayout>
-    </ScrollView>
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/list_container"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+
+            tools:context="com.example.android.udacity_nanoand_bakeit.IngredientListActivity"
+            tools:listitem="@layout/ingredient_view" />
+
+    </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

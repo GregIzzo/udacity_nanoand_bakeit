@@ -25,14 +25,14 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
 
     private static String TAG = "GGG";
 
-   //G private RecyclerView recyclerView;
-    // private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
+    private RecyclerView recyclerView;
+    private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipesteps_detail);
+        setContentView(R.layout.activity_recipesteps_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,13 +69,16 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             //arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX,
             //        getIntent().getIntExtra(RecipeStepsFragment.ARG_RECIPE_INDEX,0));
 
-
+/* REMOVE FRAGMENT
             RecipeStepsFragment fragment = new RecipeStepsFragment();
            // fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
-                    .commit();
- /* G
+
+                   .commit();
+
+   */
+
             recyclerView = findViewById(R.id.steps_list);
             assert recyclerView != null;
 
@@ -85,7 +88,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             recipeStepsRecyclerAdapter = new RecipeStepsRecyclerAdapter(this);
             recyclerView.setAdapter(recipeStepsRecyclerAdapter);
             recipeStepsRecyclerAdapter.setRecipeData("123");
-*/
+
         }
     }
 
@@ -116,5 +119,18 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
 
         //startActivity(intent);
+
+
+        if (listPosition == 0){
+            //ingredients
+            Intent intent = new Intent(this, IngredientListActivity.class);
+            startActivity(intent);
+        } else {
+            RecipeJSON.setCurrentRecipeStep(listPosition-1);
+            Intent intent = new Intent(this, StepDetailActivity.class);
+            //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+            startActivity(intent);
+        }
+
     }
 }

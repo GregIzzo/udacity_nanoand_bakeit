@@ -145,7 +145,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String s) {
-        Log.d(TAG, "onLoadFinished: data string is:" + s);
+        if (s == null){
+            Log.d(TAG, "onLoadFinished: data string is null:" );
+        }else {
+            Log.d(TAG, "onLoadFinished: data string len is:" + s.length());
+        }
         //Got data - so setup recycler view
         RecipeJSON.setDataString(s);
         setupRecyclerView( recyclerView);

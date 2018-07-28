@@ -5,4 +5,5 @@
     <dimen name="item_width">400dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="recipecard_margin">8dp</dimen>
+    <dimen name="detail_instruction_textsize">24sp</dimen>
 </resources>

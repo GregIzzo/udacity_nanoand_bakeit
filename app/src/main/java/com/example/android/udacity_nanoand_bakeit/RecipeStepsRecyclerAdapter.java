@@ -103,10 +103,10 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
     public RecipeStepsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
         viewGroupContext = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.recipesteps_detail;// R.layout.recipes_list_content;
+        int layoutIdForListItem = R.layout.recipesteps_detail;// R.layout.recipes_list_card;
         LayoutInflater inflater = LayoutInflater.from(viewGroupContext);
 // View view = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.recipes_list_content, parent, false);
+//                    .inflate(R.layout.recipes_list_card, parent, false);
         View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
         return new RecipeStepsAdapterViewHolder(view);
     }
@@ -148,6 +148,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
        // RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
        // RecipeStepsAdapterViewHolder.stepVideoURL.setText(RecipeJSON.getCurrRecipeStepVideoURL(step));
        // RecipeStepsAdapterViewHolder.stepImageURL.setText(RecipeJSON.getCurrRecipeStepThumbnailURL(step));
+        Log.d(TAG, "onBindViewHolder: step:"+step+" thumnail["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+"]");
     }
         /*
         if (imagePath != null && imagePath.length() > 0) {

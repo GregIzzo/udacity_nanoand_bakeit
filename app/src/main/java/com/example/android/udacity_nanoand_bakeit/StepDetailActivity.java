@@ -1,21 +1,26 @@
 package com.example.android.udacity_nanoand_bakeit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-public class StepDetailActivity extends AppCompatActivity {
+import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 
+public class StepDetailActivity extends AppCompatActivity {
+    private String TAG  = "GGG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "StepDetailActivity.onCreate: STARTING ");
         setContentView(R.layout.activity_step_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
@@ -38,11 +43,32 @@ public class StepDetailActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            StepDetailFragment fragment = new StepDetailFragment();
+            //MEDIA PLAYER
+            String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
+            
+            MediaPlayerFragment playerFragment = new MediaPlayerFragment();
+            playerFragment.setVideoUri(Uri.parse(videoURL));
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mediaplayer_container, playerFragment)
+                    .commit();
+
+            if (videoURL.length() == 0){
+                //No Video
+                Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
+            } else {
+                Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS VIDEO ["+videoURL+"]@@@@@@@@@");
+               // playerFragment.initializePlayer(Uri.parse(videoURL), this);
+            }
+
+
+            /*
+            StepDescriptionFragment fragment = new StepDescriptionFragment();
             // fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.step_detail_container, fragment)
                     .commit();
+                    */
 
         }
     }

@@ -24,30 +24,20 @@ import org.json.JSONObject;
  * in two-pane mode (on tablets) or a {@link RecipeStepsActivity}
  * on handsets.
  */
-public class StepDetailFragment extends Fragment  implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler{
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
+public class StepDescriptionFragment extends Fragment  {
+
     public static final String ARG_RECIPE_INDEX = "recipe_index";
     private static final String TAG = "GGG";
-
-
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public StepDetailFragment() {
+    public StepDescriptionFragment() {
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //RecipeJSON should have a 'current recipe;
-
-        //   if (getArguments().containsKey(ARG_RECIPE_INDEX)) {
         // the offset into Recipe data is passed in. Make calls to RecipeJSON class for data
         // recipeOffset = getArguments().getInt(ARG_RECIPE_INDEX);
         // myJsonObject = RecipeJSON.getRecipe(recipeOffset);
@@ -63,7 +53,9 @@ public class StepDetailFragment extends Fragment  implements RecipeStepsRecycler
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
+        View rootView = inflater.inflate(R.layout.step_directions_detail, container, false);
+        //exoplayer
+
         //tv_stepinstructions
         String s = RecipeJSON.getCurrRecipeStepDescription(RecipeJSON.getCurrentRecipeStepNum());
         TextView tv = rootView.findViewById(R.id.tv_stepinstructions);
@@ -73,9 +65,5 @@ public class StepDetailFragment extends Fragment  implements RecipeStepsRecycler
         return rootView;
     }
 
-    @Override
-    public void onClick(int listPosition) {
-        Log.d(TAG, "onClick: step list position =" + listPosition);
 
-    }
 }

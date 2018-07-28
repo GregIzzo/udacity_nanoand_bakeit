@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_stepinstructions"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:text="Instructions"
+    android:textSize="@dimen/detail_instruction_textsize"
+    android:layout_weight="2"
+    android:layout_margin="4dp"
+    android:background="@color/backgroundLight">
+
+</TextView>

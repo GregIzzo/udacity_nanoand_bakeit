@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 
@@ -100,7 +98,7 @@ public class RecipeStepsFragment extends Fragment  implements RecipeStepsRecycle
 
         if (listPosition == 0){
             //ingredients
-            Intent intent = new Intent(getActivity(), ingredient_list_activity.class);
+            Intent intent = new Intent(getActivity(), IngredientListActivity.class);
             startActivity(intent);
         } else {
             RecipeJSON.setCurrentRecipeStep(listPosition-1);
