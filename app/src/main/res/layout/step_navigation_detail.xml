@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tv_stepnavigation"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="140dp"
     tools:text="Instructions"
     android:textSize="@dimen/detail_instruction_textsize"
     android:layout_weight="1"

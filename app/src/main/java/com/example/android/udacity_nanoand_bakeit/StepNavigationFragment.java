@@ -16,21 +16,6 @@ public class StepNavigationFragment extends Fragment {
     public StepNavigationFragment(){
 
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //RecipeJSON should have a 'current recipe;
-        // the offset into Recipe data is passed in. Make calls to RecipeJSON class for data
-        // recipeOffset = getArguments().getInt(ARG_RECIPE_INDEX);
-        // myJsonObject = RecipeJSON.getRecipe(recipeOffset);
-
-        Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            appBarLayout.setTitle(RecipeJSON.getCurrRecipeName());
-        }
-        //   }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

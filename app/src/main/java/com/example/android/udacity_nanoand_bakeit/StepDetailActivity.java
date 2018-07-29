@@ -24,6 +24,7 @@ public class StepDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        toolbar.setTitle(RecipeJSON.getCurrRecipeName());
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -44,26 +45,38 @@ public class StepDetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             //MEDIA PLAYER
-            String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
-            
-            MediaPlayerFragment playerFragment = new MediaPlayerFragment();
-            playerFragment.setVideoUri(Uri.parse(videoURL));
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mediaplayer_container, playerFragment)
-                    .commit();
+            String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
 
             if (videoURL.length() == 0){
                 //No Video
                 Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
             } else {
+                MediaPlayerFragment playerFragment = new MediaPlayerFragment();
+                playerFragment.setVideoUri(Uri.parse(videoURL));
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.mediaplayer_container, playerFragment)
+                        .commit();
+
                 Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS VIDEO ["+videoURL+"]@@@@@@@@@");
                // playerFragment.initializePlayer(Uri.parse(videoURL), this);
             }
 
+            //Step instructions /////////////////////////////////////////////////
+            StepInstructionsFragment stepInstructionsFragment = new StepInstructionsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.instructions_container, stepInstructionsFragment)
+                    .commit();
+            //Step Navigation /////////////////////////////////////////////////
+            StepNavigationFragment stepNavigationFragment = new StepNavigationFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.navigation_container, stepNavigationFragment)
+                    .commit();
+
+
 
             /*
-            StepDescriptionFragment fragment = new StepDescriptionFragment();
+            StepInstructionsFragment fragment = new StepInstructionsFragment();
             // fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.step_detail_container, fragment)
