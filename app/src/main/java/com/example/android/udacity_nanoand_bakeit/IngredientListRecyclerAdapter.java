@@ -125,7 +125,7 @@ public class IngredientListRecyclerAdapter extends RecyclerView.Adapter<Ingredie
 
     @Override
     public int getItemCount() {
-        return RecipeJSON.size();
+        return RecipeJSON.getCurrRecipeIngredientsCount();
 
         /*
         if (null == resArray){

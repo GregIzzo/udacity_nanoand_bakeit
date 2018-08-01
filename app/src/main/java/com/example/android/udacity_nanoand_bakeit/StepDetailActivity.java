@@ -23,7 +23,7 @@ public class StepDetailActivity extends AppCompatActivity {
         Log.d(TAG, "StepDetailActivity.onCreate: STARTING ");
         setContentView(R.layout.activity_step_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(RecipeJSON.getCurrRecipeName());
         setSupportActionBar(toolbar);
 

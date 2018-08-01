@@ -33,9 +33,9 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipesteps_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(RecipeJSON.getCurrRecipeName());
+
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

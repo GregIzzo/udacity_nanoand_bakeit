@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_gravity="center_horizontal"
     android:layout_margin="@dimen/recipecard_margin"
     >
 
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:textSize="18sp"
-        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsFragment"
+        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
         tools:text="00" />
 
     <TextView
@@ -24,26 +24,25 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:textSize="18sp"
-        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsFragment"
+        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
         tools:text="--short description--" />
 
     <ImageView
         android:id="@+id/tv_recipe_videourl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:padding="2dp"
-        tools:src="@android:drawable/presence_video_online"
-        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsFragment"
-       />
+        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
+
+        android:src="@android:drawable/presence_video_online" />
 
     <ImageView
         android:id="@+id/tv_recipe_imageurl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:padding="2dp"
-        tools:src="@android:drawable/ic_menu_gallery"
-        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsFragment"
-      />
+        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
+        android:src="@android:drawable/ic_menu_gallery" />
 
 
 </LinearLayout>

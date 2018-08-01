@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
+
 /**
  * Created by Greg on 5/15/2018.
  */
@@ -50,8 +53,8 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
         public final TextView stepId;
         public final TextView stepShortDesc;
         //public final TextView stepLongDesc;
-        //public final TextView stepVideoURL;
-      //  public final TextView stepImageURL;
+        public final ImageView stepVideoURL;
+        public final ImageView stepImageURL;
 
 
         public RecipeStepsAdapterViewHolder( View itemView) {
@@ -62,8 +65,9 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
             stepId = itemView.findViewById(R.id.tv_recipe_id);
             stepShortDesc = itemView.findViewById(R.id.tv_recipe_shortdescription);
            // stepLongDesc = itemView.findViewById(R.id.tv_recipe_description);
-           // stepVideoURL = itemView.findViewById(R.id.tv_recipe_videourl);
-           // stepImageURL = itemView.findViewById(R.id.tv_recipe_imageurl);
+
+            stepVideoURL = itemView.findViewById(R.id.tv_recipe_videourl);
+            stepImageURL = itemView.findViewById(R.id.tv_recipe_imageurl);
 
 
             itemView.setOnClickListener(this);
@@ -139,14 +143,25 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
       // RecipeStepsAdapterViewHolder.stepId.setText("");
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(R.string.ingredient_step);
        // RecipeStepsAdapterViewHolder.stepLongDesc.setText("");
+        RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.GONE);
       //  RecipeStepsAdapterViewHolder.stepVideoURL.setText("");
+        RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.GONE);
        // RecipeStepsAdapterViewHolder.stepImageURL.setText("");
     } else {
         int step = position -1;
         RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)+1));
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
        // RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
+        Log.d(TAG, "onBindViewHolder: ******** videurl["+RecipeJSON.getCurrRecipeStepVideoURL(step)+" length="+RecipeJSON.getCurrRecipeStepVideoURL(step).length()+"] imageurl["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+" length="+RecipeJSON.getCurrRecipeStepThumbnailURL(step).length()+"]");
+        if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepVideoURL(step))) {
+            RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.GONE);
+            Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Video icon");
+        }
        // RecipeStepsAdapterViewHolder.stepVideoURL.setText(RecipeJSON.getCurrRecipeStepVideoURL(step));
+        if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepThumbnailURL(step))) {
+            RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.GONE);
+            Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Image icon");
+        }
        // RecipeStepsAdapterViewHolder.stepImageURL.setText(RecipeJSON.getCurrRecipeStepThumbnailURL(step));
         Log.d(TAG, "onBindViewHolder: step:"+step+" thumnail["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+"]");
     }
@@ -174,7 +189,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
 
     @Override
     public int getItemCount() {
-        return RecipeJSON.size() + 1; //Adding 1 to allow 'ingredients' to appear in first position
+        return RecipeJSON.getCurrRecipeStepCount() + 1; //Adding 1 to allow 'ingredients' to appear in first position
 
     }
 
