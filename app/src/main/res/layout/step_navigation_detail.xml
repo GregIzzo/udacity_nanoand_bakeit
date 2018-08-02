@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tv_stepnavigation"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
-    tools:text="Instructions"
-    android:textSize="@dimen/detail_instruction_textsize"
+    android:layout_height="match_parent"
     android:layout_weight="1"
-    android:layout_margin="4dp"
-    android:background="@color/backgroundLight" />
+    android:orientation="horizontal"
+    android:background="@color/backgroundLight"
+    >
+
+
+<ImageView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:id="@+id/iv_prev_button"
+    android:src="@android:drawable/ic_media_previous" />
+    />
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/iv_home_button"
+        android:src="@android:drawable/ic_menu_gallery" />
+    />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/iv_next_button"
+        android:src="@android:drawable/ic_media_next" />
+    />
+</LinearLayout>

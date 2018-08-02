@@ -1,6 +1,8 @@
 package com.example.android.udacity_nanoand_bakeit;
 
 import static org.hamcrest.Matchers.anything;
+
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -31,8 +33,9 @@ public class MainActivityRecipeClickTest {
     public void clickRecipeListViewItem_OpensRecipeStepsActivity() {
 
         // get a reference to a recycleView item and clicks it.
-        onData(anything()).inAdapterView(withId(R.id.recipe_list)).atPosition(1).perform(click());
-
+        //onData(anything()).inAdapterView(withId(R.id.recipe_list)).atPosition(1).perform(click());
+        onView(withId(R.id.recipe_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         // Checks that the RecipeStepsActivity opens (layout:activity_recipesteps_list)
         // with the correct recipe name displayed (displayed in toolbar : R.id.toolbar)
         onView(withId(R.id.toolbar)).check(matches(withText(RECIPE_NAME)));

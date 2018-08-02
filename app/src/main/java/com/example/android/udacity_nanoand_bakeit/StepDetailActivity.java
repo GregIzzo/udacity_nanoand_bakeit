@@ -47,20 +47,20 @@ public class StepDetailActivity extends AppCompatActivity {
             //MEDIA PLAYER
 
             String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
+            MediaPlayerFragment playerFragment = new MediaPlayerFragment();
 
             if (videoURL.length() == 0){
                 //No Video
                 Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
             } else {
-                MediaPlayerFragment playerFragment = new MediaPlayerFragment();
                 playerFragment.setVideoUri(Uri.parse(videoURL));
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.mediaplayer_container, playerFragment)
-                        .commit();
-
-                Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS VIDEO ["+videoURL+"]@@@@@@@@@");
-               // playerFragment.initializePlayer(Uri.parse(videoURL), this);
             }
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mediaplayer_container, playerFragment)
+                    .commit();
+
+            Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS VIDEO ["+videoURL+"]@@@@@@@@@");
+            // playerFragment.initializePlayer(Uri.parse(videoURL), this);
 
             //Step instructions /////////////////////////////////////////////////
             StepInstructionsFragment stepInstructionsFragment = new StepInstructionsFragment();
@@ -72,17 +72,6 @@ public class StepDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.navigation_container, stepNavigationFragment)
                     .commit();
-
-
-
-            /*
-            StepInstructionsFragment fragment = new StepInstructionsFragment();
-            // fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.step_detail_container, fragment)
-                    .commit();
-                    */
-
         }
     }
 
@@ -100,6 +89,12 @@ public class StepDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    /*
+        changeStep - call this to remake the display elements. Call this after incrementing or decrementing recipe step
+     */
+    public void changeStep(){
+
     }
 
 }

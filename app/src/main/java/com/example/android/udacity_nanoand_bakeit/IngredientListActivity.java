@@ -18,16 +18,25 @@ import android.widget.TextView;
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 
+import butterknife.BindView;
+
 public class IngredientListActivity extends AppCompatActivity implements IngredientListRecyclerAdapter.IngredientListAdapterOnClickHandler {
 
     private RecyclerView recyclerView;
     private IngredientListRecyclerAdapter ingredientListRecyclerAdapter;
+    //Toolbar toolbar;
+   // FloatingActionButton fab;
+   // RecyclerView recyclerView;
+
+   // @BindView(R.id.detail_toolbar) Toolbar toolbar;
+   // @BindView(R.id.fab) FloatingActionButton fab;
+   // @BindView(R.id.list_container) RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+       Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         toolbar.setTitle(RecipeJSON.getCurrRecipeName() + " " + getString(R.string.ingredient_step) );
         setSupportActionBar(toolbar);
 

@@ -1,6 +1,7 @@
 package com.example.android.udacity_nanoand_bakeit;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,7 @@ public class MediaPlayerFragment extends Fragment {
         Log.d(TAG, "*** MediaPlayerFragment.onCreateView: CREATING MEDIA PLAY FRAGMENT mPlayerView["+mPlayerView+"]");
 
         assert mPlayerView != null;
+        mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video));
         initializePlayer();
         return rootView;
     }

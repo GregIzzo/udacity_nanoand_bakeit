@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.squareup.picasso.Picasso;
 
+
 import static com.google.android.exoplayer2.ExoPlayerLibraryInfo.TAG;
 
 /**

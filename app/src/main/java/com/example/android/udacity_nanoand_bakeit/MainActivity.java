@@ -22,6 +22,9 @@ import com.example.android.udacity_nanoand_bakeit.utilities.NetworkUtils;
 
 import java.net.URL;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * An activity representing a list of Recipes. This activity
  * has different presentations for handset and tablet-size devices. On
@@ -41,20 +44,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIE_LOADER_ID= 24;
     private String mRecipeData = null;
 
-    private RecyclerView recyclerView;
+   // private RecyclerView recyclerView;
     private RecipeListRecyclerAdapter recipeRecyclerAdapter;
 
+    //Butterknife
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.recipe_list) RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes_list);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       //BK Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       //BK FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mTwoPane = true;
         }
 */
-        recyclerView = findViewById(R.id.recipe_list);
+       //BK recyclerView = findViewById(R.id.recipe_list);
         assert recyclerView != null;
 
        // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);

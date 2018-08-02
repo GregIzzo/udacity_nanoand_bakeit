@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+
 /**
  * Created by Greg on 5/15/2018.
  */
@@ -24,7 +26,7 @@ public class RecipeListRecyclerAdapter extends RecyclerView.Adapter<RecipeListRe
     //private int mNumberOfItems;
     private String recipeJsonData;
     private final RecipeAdapterOnClickHandler mClickHandler;
-    private Context viewGroupContext;
+
 
     // private JSONObject reader = null;
    // private  JSONArray resArray=null;
@@ -44,8 +46,9 @@ public class RecipeListRecyclerAdapter extends RecyclerView.Adapter<RecipeListRe
 
     public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
 
-        public final ImageView listItemRecipeImageView;
-        public final TextView listItemRecipeName;
+        ImageView listItemRecipeImageView;
+        TextView listItemRecipeName;
+
 
         public RecipeAdapterViewHolder( View itemView) {
             super(itemView);
@@ -87,7 +90,7 @@ public class RecipeListRecyclerAdapter extends RecyclerView.Adapter<RecipeListRe
     @Override
     public RecipeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-        viewGroupContext = viewGroup.getContext();
+        Context viewGroupContext = viewGroup.getContext();
         int layoutIdForListItem = R.layout.recipes_list_card;
         LayoutInflater inflater = LayoutInflater.from(viewGroupContext);
 // View view = LayoutInflater.from(parent.getContext())
@@ -118,7 +121,7 @@ public class RecipeListRecyclerAdapter extends RecyclerView.Adapter<RecipeListRe
             String imagePath = RecipeJSON.getRecipeImage(position);
 
             //String imurl = "https://image.tmdb.org/t/p/w500" + posterPath;
-       RecipeAdapterViewHolder.listItemRecipeName.setText(RecipeJSON.getRecipeName(position));
+        RecipeAdapterViewHolder.listItemRecipeName.setText(RecipeJSON.getRecipeName(position));
         Log.d("ZZZZ", "onBindViewHolder: imagePath=["+imagePath+"]");
 
         if (imagePath != null && imagePath.length() > 0) {
