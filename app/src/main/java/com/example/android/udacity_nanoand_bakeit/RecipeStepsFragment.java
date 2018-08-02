@@ -107,4 +107,5 @@ public class RecipeStepsFragment extends Fragment  implements RecipeStepsRecycle
             startActivity(intent);
         }
     }
+
 }

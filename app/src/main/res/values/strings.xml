@@ -3,4 +3,7 @@
     <string name="title_recipe_detail">Recipe Detail</string>
     <string name="ingredient_step">Ingredients</string>
     <string name="title_step_detail">Step Detail</string>
+    <string name="nav_prev">prev</string>
+    <string name="nav_next">next</string>
+    <string name="nav_home">home</string>
 </resources>
