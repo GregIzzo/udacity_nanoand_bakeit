@@ -5,19 +5,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 
-public class StepDetailActivity extends AppCompatActivity implements StepNavigationFragment.OnNavClickListener{
+public class StepDetailActivity extends AppCompatActivity 
+        implements StepNavigationFragment.OnNavClickListener, 
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener {
     private String TAG  = "GGG";
-
+    private GestureDetectorCompat mGestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +51,27 @@ public class StepDetailActivity extends AppCompatActivity implements StepNavigat
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-
         if (savedInstanceState == null) {
             showStep();
         }
+        mGestureDetector = new GestureDetectorCompat(this, this);
+        mGestureDetector.setOnDoubleTapListener(this);
     }
+/*
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d(TAG, "onTouchEvent: EVENT="+event.toString());
+        return super.onTouchEvent(event);
+    }
+*/
+@Override
+public boolean onTouchEvent(MotionEvent event){
+    if (this.mGestureDetector.onTouchEvent(event)) {
+        Log.d(TAG, "onTouchEvent: !!!!" );
+        return true;
+    }
+    return super.onTouchEvent(event);
+}
     private void showStep(){
         //MEDIA PLAYER
         String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
@@ -75,7 +99,6 @@ public class StepDetailActivity extends AppCompatActivity implements StepNavigat
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.navigation_container, stepNavigationFragment)
                 .commit();
-
     }
 
     private void replaceStep(){
@@ -154,5 +177,91 @@ public class StepDetailActivity extends AppCompatActivity implements StepNavigat
                 break;
 
         }
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        Log.d(TAG, "onDown: !!!!");
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+        Log.d(TAG, "onShowPress: !!!!");
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        Log.d(TAG, "onSingleTapUp: !!!!!");
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Log.d(TAG, "onScroll: !!!");
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        boolean result = false;
+        int SWIPE_THRESHOLD = 100;
+         int SWIPE_VELOCITY_THRESHOLD = 100;
+
+        try {
+            float diffY = e2.getY() - e1.getY();
+            float diffX = e2.getX() - e1.getX();
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) {
+                        //onSwipeRight();
+                        Log.d(TAG, "onFling: SWIPE RIGHT");
+                        onNavButtonClicked("prev");
+                    } else {
+                        //onSwipeLeft();
+                        Log.d(TAG, "onFling: SWIPE LEFT");
+                        onNavButtonClicked("next");
+                    }
+                    result = true;
+                }
+            }
+            else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                if (diffY > 0) {
+                    //onSwipeBottom();
+                    Log.d(TAG, "onFling: SWIPE DOWN");
+                } else {
+                   // onSwipeTop();
+                    Log.d(TAG, "onFling: SWIPE UP");
+                }
+                result = true;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return result;
+
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+        Log.d(TAG, "onSingleTapConfirmed: !!!!");
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent motionEvent) {
+        Log.d(TAG, "onDoubleTap: !!!");
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+        Log.d(TAG, "onDoubleTapEvent: !!!");
+        return false;
     }
 }
