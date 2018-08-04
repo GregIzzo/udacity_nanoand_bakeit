@@ -21,12 +21,22 @@ import android.widget.Toast;
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 
-public class StepDetailActivity extends AppCompatActivity 
-        implements StepNavigationFragment.OnNavClickListener, 
+public class StepDetailActivity extends AppCompatActivity
+        implements StepNavigationFragment.OnNavClickListener,
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
+
     private String TAG  = "GGG";
     private GestureDetectorCompat mGestureDetector;
+    MediaPlayerFragment playerFragment;
+    StepInstructionsFragment stepInstructionsFragment;
+    StepNavigationFragment stepNavigationFragment;
+
+    private String TAG_FRAGMENT_MEDIAPLAY = "step_media_player";
+    private String TAG_FRAGMENT_INSTRUCTIONS = "step_instructions";
+    private String TAG_FRAGMENT_NAVIGATION = "step_navigation";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,81 +62,74 @@ public class StepDetailActivity extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         if (savedInstanceState == null) {
-            showStep();
+            showStep("new");
+        } else {
+            showStep("restore");
         }
         mGestureDetector = new GestureDetectorCompat(this, this);
         mGestureDetector.setOnDoubleTapListener(this);
     }
-/*
+    /*
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            Log.d(TAG, "onTouchEvent: EVENT="+event.toString());
+            return super.onTouchEvent(event);
+        }
+    */
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.d(TAG, "onTouchEvent: EVENT="+event.toString());
+    public boolean onTouchEvent(MotionEvent event){
+        if (this.mGestureDetector.onTouchEvent(event)) {
+            Log.d(TAG, "onTouchEvent: !!!!" );
+            return true;
+        }
         return super.onTouchEvent(event);
     }
-*/
-@Override
-public boolean onTouchEvent(MotionEvent event){
-    if (this.mGestureDetector.onTouchEvent(event)) {
-        Log.d(TAG, "onTouchEvent: !!!!" );
-        return true;
-    }
-    return super.onTouchEvent(event);
-}
-    private void showStep(){
+    private void showStep(String action){
+        Log.d(TAG, "StepDetailActivity.showStep: action="+action);
         //MEDIA PLAYER
         String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
-        MediaPlayerFragment playerFragment = new MediaPlayerFragment();
 
-        if (videoURL.length() == 0){
-            //No Video
-            Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
-        } else {
-            playerFragment.setVideoUri(Uri.parse(videoURL));
+        switch(action){
+            case "new":
+                playerFragment = new MediaPlayerFragment();
+                stepInstructionsFragment = new StepInstructionsFragment();
+                stepNavigationFragment = new StepNavigationFragment();
+                playerFragment.setVideoUri(videoURL);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.mediaplayer_container, playerFragment,TAG_FRAGMENT_MEDIAPLAY)
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.instructions_container, stepInstructionsFragment,TAG_FRAGMENT_INSTRUCTIONS)
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.navigation_container, stepNavigationFragment,TAG_FRAGMENT_NAVIGATION)
+                        .commit();
+                break;
+            case "replace":
+                playerFragment = new MediaPlayerFragment();
+                stepInstructionsFragment = new StepInstructionsFragment();
+                stepNavigationFragment = new StepNavigationFragment();
+                playerFragment.setVideoUri(videoURL);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mediaplayer_container, playerFragment,TAG_FRAGMENT_MEDIAPLAY)
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.instructions_container, stepInstructionsFragment,TAG_FRAGMENT_INSTRUCTIONS)
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.navigation_container, stepNavigationFragment,TAG_FRAGMENT_NAVIGATION)
+                        .commit();
+                 break;
+            case "restore":
+                playerFragment = (MediaPlayerFragment) getSupportFragmentManager()
+                    .findFragmentByTag(TAG_FRAGMENT_MEDIAPLAY);
+                stepInstructionsFragment = (StepInstructionsFragment) getSupportFragmentManager()
+                    .findFragmentByTag(TAG_FRAGMENT_INSTRUCTIONS);
+                stepNavigationFragment = (StepNavigationFragment) getSupportFragmentManager()
+                    .findFragmentByTag(TAG_FRAGMENT_NAVIGATION);
+                break;
         }
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.mediaplayer_container, playerFragment)
-                .commit();
-        Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS VIDEO ["+videoURL+"]@@@@@@@@@");
-        // playerFragment.initializePlayer(Uri.parse(videoURL), this);
 
-        //Step instructions /////////////////////////////////////////////////
-        StepInstructionsFragment stepInstructionsFragment = new StepInstructionsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.instructions_container, stepInstructionsFragment)
-                .commit();
-        //Step Navigation /////////////////////////////////////////////////
-        StepNavigationFragment stepNavigationFragment = new StepNavigationFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.navigation_container, stepNavigationFragment)
-                .commit();
-    }
-
-    private void replaceStep(){
-        String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
-        MediaPlayerFragment playerFragment = new MediaPlayerFragment();
-
-        if (videoURL.length() == 0){
-            //No Video
-            Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
-        } else {
-            playerFragment.setVideoUri(Uri.parse(videoURL));
-        }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mediaplayer_container, playerFragment)
-                .commit();
-        Log.d(TAG, "onCreate: @@@@@ THIS STEP HAS VIDEO ["+videoURL+"]@@@@@@@@@");
-        // playerFragment.initializePlayer(Uri.parse(videoURL), this);
-
-        //Step instructions /////////////////////////////////////////////////
-        StepInstructionsFragment stepInstructionsFragment = new StepInstructionsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.instructions_container, stepInstructionsFragment)
-                .commit();
-        //Step Navigation /////////////////////////////////////////////////
-        StepNavigationFragment stepNavigationFragment = new StepNavigationFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.navigation_container, stepNavigationFragment)
-                .commit();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -152,12 +155,12 @@ public boolean onTouchEvent(MotionEvent event){
         switch(action){
             case "home":
                 navigateUpTo(new Intent(this, RecipeStepsActivity.class));
-            break;
+                break;
             case "prev":
                 if (RecipeJSON.getCurrentRecipeStepNum() > 0){
                     //decrement step
                     RecipeJSON.setCurrentRecipeStep(RecipeJSON.getCurrentRecipeStepNum() - 1);
-                    replaceStep();
+                    showStep("replace");
                 } else {
                     //Ingredients come before steps, so launch IngredientListActivity
                     Intent intent = new Intent(this, IngredientListActivity.class);
@@ -169,7 +172,7 @@ public boolean onTouchEvent(MotionEvent event){
                 if (currstep < RecipeJSON.getCurrRecipeStepCount() - 1){
                     //go to next step
                     RecipeJSON.setCurrentRecipeStep(RecipeJSON.getCurrentRecipeStepNum() + 1);
-                    replaceStep();
+                    showStep("replace");
                 } else {
                     //Cant go further. Do nothing
                     Toast.makeText(this, "You are on the last step. ", Toast.LENGTH_SHORT).show();
@@ -211,7 +214,7 @@ public boolean onTouchEvent(MotionEvent event){
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         boolean result = false;
         int SWIPE_THRESHOLD = 100;
-         int SWIPE_VELOCITY_THRESHOLD = 100;
+        int SWIPE_VELOCITY_THRESHOLD = 100;
 
         try {
             float diffY = e2.getY() - e1.getY();
@@ -235,7 +238,7 @@ public boolean onTouchEvent(MotionEvent event){
                     //onSwipeBottom();
                     Log.d(TAG, "onFling: SWIPE DOWN");
                 } else {
-                   // onSwipeTop();
+                    // onSwipeTop();
                     Log.d(TAG, "onFling: SWIPE UP");
                 }
                 result = true;

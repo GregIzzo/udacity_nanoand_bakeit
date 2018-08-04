@@ -82,16 +82,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
        //BK recyclerView = findViewById(R.id.recipe_list);
         assert recyclerView != null;
 
-       // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-
-        recyclerView.setLayoutManager(mLayoutManager);
-        recipeRecyclerAdapter  = new RecipeListRecyclerAdapter(this);
-        /* Setting the adapter attaches it to the RecyclerView in our layout. */
-
-
-        //Wait until data is loaded before setting up recycler view
-       // setupRecyclerView((RecyclerView) recyclerView);
         getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this );
 
     }
@@ -99,6 +89,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
        // recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this,  mTwoPane));
         Log.d(TAG, "setupRecyclerView: *** Setting Adapter");
+        // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+        recipeRecyclerAdapter  = new RecipeListRecyclerAdapter(this);
+        /* Setting the adapter attaches it to the RecyclerView in our layout. */
+        //Wait until data is loaded before setting up recycler view
+        // setupRecyclerView((RecyclerView) recyclerView);
         recyclerView.setAdapter(recipeRecyclerAdapter);
 
         recipeRecyclerAdapter.setRecipeData("123");

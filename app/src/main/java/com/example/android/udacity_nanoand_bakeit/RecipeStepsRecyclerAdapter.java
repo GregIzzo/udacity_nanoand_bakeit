@@ -149,7 +149,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
        // RecipeStepsAdapterViewHolder.stepImageURL.setText("");
     } else {
         int step = position -1;
-        RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)+1));
+        RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)));
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
        // RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
         Log.d(TAG, "onBindViewHolder: ******** videurl["+RecipeJSON.getCurrRecipeStepVideoURL(step)+" length="+RecipeJSON.getCurrRecipeStepVideoURL(step).length()+"] imageurl["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+" length="+RecipeJSON.getCurrRecipeStepThumbnailURL(step).length()+"]");

@@ -15,11 +15,15 @@ public class RecipeJSON {
     public static JSONArray getData() {
         return dataJSONArray;
     }
+
     public static void setDataString(String jsonString) {
         //Expect jsonString to be a JSONArray:
         //  [ {JsonObject}, {JsonObject},....]
         // where each JsonObject is a recipe Data object
         dataJSONArray = null;
+        //FORCE INTERNAL DATA TO BE USED
+        Log.d(TAG, "setDataString: =============== INTERNAL DATA IS BEING USED BY FORCE ==========");
+        jsonString = null;
         if (jsonString == null){
             Log.d(TAG, "!!!!! !!!!! !!!!! setDataString: USING STATIC DATA !!!!!!!!!!");
             jsonString = staticData;
@@ -358,7 +362,7 @@ public class RecipeJSON {
             "        \"shortDescription\": \"Recipe Introduction\",\n" +
             "        \"description\": \"Recipe Introduction\",\n" +
             "        \"videoURL\": \"https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4\",\n" +
-            "        \"thumbnailURL\": \"\"\n" +
+            "        \"thumbnailURL\": \"https://www.recipeboy.com/wp-content/uploads/2016/09/No-Bake-Nutella-Pie.jpg\"\n" +
             "      },\n" +
             "      {\n" +
             "        \"id\": 1,\n" +
@@ -404,7 +408,7 @@ public class RecipeJSON {
             "      }\n" +
             "    ],\n" +
             "    \"servings\": 8,\n" +
-            "    \"image\": \"\"\n" +
+            "    \"image\": \"https://www.recipeboy.com/wp-content/uploads/2016/09/No-Bake-Nutella-Pie.jpg\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 2,\n" +
@@ -534,7 +538,7 @@ public class RecipeJSON {
             "      }\n" +
             "    ],\n" +
             "    \"servings\": 8,\n" +
-            "    \"image\": \"\"\n" +
+            "    \"image\": \"https://images.media-allrecipes.com/userphotos/560x315/3850414.jpg\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 3,\n" +
@@ -831,7 +835,7 @@ public class RecipeJSON {
             "      }\n" +
             "    ],\n" +
             "    \"servings\": 8,\n" +
-            "    \"image\": \"\"\n" +
+            "    \"image\": \"https://food.fnr.sndimg.com/content/dam/images/food/fullset/2008/9/8/1/Cheesecake_Classic.jpg.rend.hgtvcom.616.462.suffix/1371587222109.jpeg\"\n" +
             "  }\n" +
             "]\n" +
             "\n";

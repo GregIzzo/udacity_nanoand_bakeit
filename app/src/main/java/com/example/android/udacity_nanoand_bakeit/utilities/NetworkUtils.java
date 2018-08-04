@@ -42,8 +42,8 @@ public class NetworkUtils {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         Log.d("GGG", "getResponseFromHttpUrl:***starting******* ");
         try {
-            InputStream inStream = urlConnection.getInputStream();
-            Scanner scanner = new Scanner(inStream);
+            InputStream inStream = urlConnection.getInputStream( );
+            Scanner scanner = new Scanner(inStream, "UTF-8");
             scanner.useDelimiter("\\A");
             boolean hasInput = scanner.hasNext();
             if (hasInput) {

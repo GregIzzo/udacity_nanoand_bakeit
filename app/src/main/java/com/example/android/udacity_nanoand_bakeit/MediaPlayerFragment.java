@@ -38,12 +38,20 @@ public class MediaPlayerFragment extends Fragment {
     private MediaSessionCompat mMediaSession;
 
     private Uri videoUri;
+    private String videoPath ="";
 
 
     public MediaPlayerFragment(){
     }
-    public void setVideoUri(Uri uri){
-        videoUri = uri;
+    public void setVideoUri(String url){
+        videoPath = url;
+        videoUri = null;
+        if (videoPath.length() > 0) {
+            Log.d(TAG, "MediaPlayerFragment.setVideUri: videopath="+videoPath);
+            videoUri = Uri.parse(videoPath);
+        } else {
+            Log.d(TAG, "MediaPlayerFragment.setVideUri: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
+        }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +78,7 @@ public class MediaPlayerFragment extends Fragment {
 // 2. Create the player
         SimpleExoPlayer player =
                 ExoPlayerFactory.newSimpleInstance(context, trackSelector);
-        Log.d(TAG, "### PLAYER ## initializePlayer:player["+player+"] mPlayerView["+mPlayerView+"]");
+        Log.d(TAG, "### mediaPLAYER ## initializePlayer:player="+player+" videoPath="+videoPath+" videoUri="+videoUri);
 
 // Bind the player to the view.
         mPlayerView.setPlayer(player);
