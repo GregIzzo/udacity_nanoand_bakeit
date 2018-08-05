@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.udacity_nanoand_bakeit">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,42 +16,52 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.android.udacity_nanoand_bakeit.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
+            android:name=".RecipeStepsActivity"
             android:label="@string/title_recipe_detail"
-            android:parentActivityName="com.example.android.udacity_nanoand_bakeit.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.udacity_nanoand_bakeit.MainActivity" />
         </activity>
-        <activity android:name=".StepDetailActivity"
+        <activity
+            android:name=".StepDetailActivity"
             android:label="@string/title_step_detail"
             android:parentActivityName=".RecipeStepsActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
-
-
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
         </activity>
-        <activity android:name=".IngredientListActivity"
+        <activity
+            android:name=".IngredientListActivity"
             android:label="Ingredient List"
             android:parentActivityName=".RecipeStepsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
+                android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
         </activity>
 
+        <receiver android:name="com.example.android.bakeit.BakeItWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/bake_it_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

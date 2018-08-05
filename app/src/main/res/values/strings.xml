@@ -6,4 +6,6 @@
     <string name="nav_prev">prev</string>
     <string name="nav_next">next</string>
     <string name="nav_home">home</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
