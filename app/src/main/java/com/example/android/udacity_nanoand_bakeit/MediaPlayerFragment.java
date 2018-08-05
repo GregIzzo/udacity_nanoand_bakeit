@@ -40,6 +40,7 @@ public class MediaPlayerFragment extends Fragment {
     private Uri videoUri;
     private String videoPath ="";
 
+    public static final String VIDEO_PATH = "video_path";
 
     public MediaPlayerFragment(){
     }
@@ -56,8 +57,12 @@ public class MediaPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Load the saved state
+        if(savedInstanceState != null) {
+            setVideoUri(savedInstanceState.getString(VIDEO_PATH));
+         }
         View rootView = inflater.inflate(R.layout.mediaplayer_view, container, false);
-    //tv_mediaplayer
         mPlayerView = rootView.findViewById(R.id.tv_mediaplayer);
         Log.d(TAG, "*** MediaPlayerFragment.onCreateView: CREATING MEDIA PLAY FRAGMENT mPlayerView["+mPlayerView+"]");
 
@@ -107,5 +112,10 @@ public class MediaPlayerFragment extends Fragment {
         }
         */
     }
+    @Override
+    public void onSaveInstanceState(Bundle currentState ) {
+        currentState.putString(VIDEO_PATH, videoPath);
+    }
+
 
 }

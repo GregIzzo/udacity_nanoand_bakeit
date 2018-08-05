@@ -126,43 +126,25 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
      */
     @Override
     public void onBindViewHolder(@NonNull RecipeStepsAdapterViewHolder RecipeStepsAdapterViewHolder, int position) {
-        //set the image of the ImageView
-
-        // if (recipeJsonData == null){
-        //     return;
-        //  }
-        //   try {
-        // JSONObject jObj = resArray.getJSONObject(position);
-        // JSONObject jsonObject = RecipeJSON.getRecipe(position);
-        //String imagePath = RecipeJSON.getRecipeImage(position);
-
-        //String imurl = "https://image.tmdb.org/t/p/w500" + posterPath;
-      //  RecipeStepsAdapterViewHolder.listItemRecipeName.setText(RecipeJSON.getRecipeName(position));
-    if (position == 0) {
+        Log.d(TAG, "onBindViewHolder: >>>>>>>>>>>>>>> position = "+position);
+      if (position == 0) {
         //Position 0 is the 'Ingredients' step
-      // RecipeStepsAdapterViewHolder.stepId.setText("");
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(R.string.ingredient_step);
-       // RecipeStepsAdapterViewHolder.stepLongDesc.setText("");
         RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.GONE);
-      //  RecipeStepsAdapterViewHolder.stepVideoURL.setText("");
         RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.GONE);
-       // RecipeStepsAdapterViewHolder.stepImageURL.setText("");
     } else {
         int step = position -1;
         RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)));
         RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
-       // RecipeStepsAdapterViewHolder.stepLongDesc.setText(RecipeJSON.getCurrRecipeStepDescription(step));
         Log.d(TAG, "onBindViewHolder: ******** videurl["+RecipeJSON.getCurrRecipeStepVideoURL(step)+" length="+RecipeJSON.getCurrRecipeStepVideoURL(step).length()+"] imageurl["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+" length="+RecipeJSON.getCurrRecipeStepThumbnailURL(step).length()+"]");
         if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepVideoURL(step))) {
             RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.GONE);
             Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Video icon");
         }
-       // RecipeStepsAdapterViewHolder.stepVideoURL.setText(RecipeJSON.getCurrRecipeStepVideoURL(step));
         if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepThumbnailURL(step))) {
             RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.GONE);
             Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Image icon");
         }
-       // RecipeStepsAdapterViewHolder.stepImageURL.setText(RecipeJSON.getCurrRecipeStepThumbnailURL(step));
         Log.d(TAG, "onBindViewHolder: step:"+step+" thumnail["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+"]");
     }
         /*

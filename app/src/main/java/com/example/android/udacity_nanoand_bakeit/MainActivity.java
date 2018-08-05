@@ -181,8 +181,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
 */
         RecipeJSON.setCurrentRecipe(listPosition);
-            Intent intent = new Intent(this, RecipeStepsActivity.class);
-        //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+        Log.d(TAG, "-----MainActivity RecipeJSON.getCurrentRecipeOffset=" + RecipeJSON.getCurrentRecipeListPosition());
+
+        Intent intent = new Intent(this, RecipeStepsActivity.class);
+        intent.putExtra(RecipeStepsActivity.CURR_RECIPE_INDEX, listPosition);
 
             startActivity(intent);
 /*

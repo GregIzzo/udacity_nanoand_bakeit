@@ -2,6 +2,7 @@ package com.example.android.udacity_nanoand_bakeit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,35 +24,52 @@ import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
  */
 public class RecipeStepsActivity extends AppCompatActivity implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler{
 
+    public static final String CURR_RECIPE_INDEX = "current_recipe_index";
     private static String TAG = "GGG";
 
     private RecyclerView recyclerView;
     private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
+    private int recipeIndex = -1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null){
+            Log.d(TAG, "SSSSS onCreate: picked from savedinstance="+savedInstanceState.getInt(CURR_RECIPE_INDEX));
+            recipeIndex = savedInstanceState.getInt(CURR_RECIPE_INDEX);
+            RecipeJSON.setCurrentRecipe(recipeIndex);
+        } else {
+            Log.d(TAG, "SSSSS onCreate: savedInstance=null, recipejson position = "+ RecipeJSON.getCurrentRecipeListPosition());
+            recipeIndex = RecipeJSON.getCurrentRecipeListPosition();
+        }
+
         setContentView(R.layout.activity_recipesteps_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(RecipeJSON.getCurrRecipeName());
+        if (toolbar != null) {
+            toolbar.setTitle(RecipeJSON.getCurrRecipeName());
+        }
 
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        if (findViewById(R.id.step_detail_container) != null){
+            Log.d(TAG, "onCreate: *** TWO PANE LAYOUT ****");
+        }
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
         // (e.g. when rotating the screen from portrait to landscape).
@@ -61,7 +79,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         //
         // http://developer.android.com/guide/components/fragments.html
         //
-        if (savedInstanceState == null) {
+/////////////////////////////////////////////        if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Log.d(TAG, "RecipeStepsActivity.onCreate. Number of steps=" + RecipeJSON.getCurrRecipeStepCount() );
@@ -90,7 +108,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             recyclerView.setAdapter(recipeStepsRecyclerAdapter);
             recipeStepsRecyclerAdapter.setRecipeData("123");
 
-        }
+//////////////////////////        }
     }
 
 
@@ -118,9 +136,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
        // RecipeJSON.setCurrentRecipe(listPosition);
         //Intent intent = new Intent(this, RecipeStepsActivity.class);
         //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
-
         //startActivity(intent);
-
 
         if (listPosition == 0){
             //ingredients
@@ -132,6 +148,38 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
             startActivity(intent);
         }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "SSSSSS onStop: currindex="+RecipeJSON.getCurrentRecipeListPosition());
+        getIntent().putExtra(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+    }
+/*
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "SSSSSSS onResume:getIntent().getIntExtra(CURR_RECIPE_INDEX="+getIntent().getIntExtra(CURR_RECIPE_INDEX, 0));
+        if (getIntent() != null ){
+            RecipeJSON.setCurrentRecipe(getIntent().getIntExtra(CURR_RECIPE_INDEX, 0));
+        }
+    }
+*/
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "SSSSSS onSaveInstanceState: position="+RecipeJSON.getCurrentRecipeListPosition());
+        outState.putInt(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "SSSSSS onRestoreInstanceState: key exists?("+savedInstanceState.containsKey(CURR_RECIPE_INDEX)+") ");
+        if (savedInstanceState.containsKey(CURR_RECIPE_INDEX)){
+            Log.d(TAG, "SSSSSSSSSSSSSSSSSSSSSS: oldposition= "+ savedInstanceState.getInt(CURR_RECIPE_INDEX));
+            RecipeJSON.setCurrentRecipe(savedInstanceState.getInt(CURR_RECIPE_INDEX));
+        }
     }
 }

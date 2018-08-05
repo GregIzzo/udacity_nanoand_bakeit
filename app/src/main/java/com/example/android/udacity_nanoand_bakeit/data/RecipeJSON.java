@@ -10,6 +10,7 @@ public class RecipeJSON {
     private static JSONArray dataJSONArray = null;//array of recipe objects
     private static JSONObject currentRecipe = null;// currently selected recipe
     private static int currentRecipeStepNum =0;
+    private static int currentRecipeListPosition =0;//offset into data for current recipe
     private static String TAG = "RecipeJSON";
 
     public static JSONArray getData() {
@@ -38,9 +39,13 @@ public class RecipeJSON {
         }
 
     }
+    public static int getCurrentRecipeListPosition(){
+        return currentRecipeListPosition;
+    }
     public static int setCurrentRecipe(int position){
         // pass in list offset to pick the current recipe
         // Return value: 1=okay/done, 0=not done/error
+        currentRecipeListPosition = position;
         if (dataJSONArray == null) return 0 ;
         if (position >= dataJSONArray.length()) return 0;
         try {
