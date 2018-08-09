@@ -6,12 +6,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class RecipeJSON {
     private static JSONArray dataJSONArray = null;//array of recipe objects
     private static JSONObject currentRecipe = null;// currently selected recipe
     private static int currentRecipeStepNum =0;
     private static int currentRecipeListPosition =0;//offset into data for current recipe
     private static String TAG = "RecipeJSON";
+
+    private static String INGREDIENT_QTY = "quantity";
+    private static String INGREDIENT_MEASURE = "measure";
+    private static String INGREDIENT_NAME = "ingredient";
 
     public static JSONArray getData() {
         return dataJSONArray;
@@ -70,6 +76,10 @@ public class RecipeJSON {
     }
     public static int getCurrentRecipeStepNum(){
         return currentRecipeStepNum;
+    }
+    public static ArrayList<String> getCurrentRecipeIngredientsArray (){
+        if (currentRecipe == null) return null;
+       return getIngredientsArray(currentRecipe);
     }
     public static JSONObject getRecipe(int position){
         if (dataJSONArray == null) return null;
@@ -139,8 +149,8 @@ public class RecipeJSON {
         }
     }
     public static String getCurrIngredientsString(){
-        if (dataJSONArray == null) return "No Data";
-        if (currentRecipe == null) return  "No Data";
+        if (dataJSONArray == null) return "";
+        if (currentRecipe == null) return  "";
         return getIngredientsString(currentRecipe);
     }
     public static String getCurrRecipeId(){
@@ -229,6 +239,27 @@ public class RecipeJSON {
         }
 
     }
+    public static String getCurrRecipeIngredientCompleteString(int offset){
+        if (dataJSONArray == null) return "";
+        if (currentRecipe == null) return "";
+        try{
+            JSONArray steps = currentRecipe.getJSONArray("ingredients");
+            if (offset <= steps.length()){
+                //Compose output string from parts
+
+                return steps.getJSONObject(offset).getString(INGREDIENT_QTY) + " " +
+                        steps.getJSONObject(offset).getString(INGREDIENT_MEASURE) + " " +
+                        steps.getJSONObject(offset).getString(INGREDIENT_NAME) ;
+            } else {
+                return "";
+            }
+        } catch (JSONException e){
+            Log.d(TAG, "getCurrRecipeIngredientCompleteString: offset:"+offset+"  JSON ERROR:" + e.getLocalizedMessage());
+            return "";
+        }
+
+    }
+
     public static String getCurrRecipeIngredientString(int offset, String key){
         if (dataJSONArray == null) return "";
         if (currentRecipe == null) return "";
@@ -307,6 +338,25 @@ public class RecipeJSON {
         } catch (JSONException e){
             Log.d(TAG, "getIngredientsString: failed to create ingredient string");
             return "No Data";
+
+        }
+    }
+    public static ArrayList<String> getIngredientsArray(JSONObject rObj){
+        ArrayList<String> myArrayList;
+        myArrayList = new ArrayList<>();
+        try {
+            JSONArray ingList = rObj.getJSONArray("ingredients");
+            int len = ingList.length();
+            String ingrString = "";
+            for (int i = 0; i < len; i++) {
+                JSONObject ingObj = ingList.getJSONObject(i);
+                myArrayList.add(ingObj.getString("ingredient"));
+                }
+
+            return myArrayList;
+        } catch (JSONException e){
+            Log.d(TAG, "getIngredientsString: failed to create ingredient string");
+            return null;
 
         }
     }

@@ -45,7 +45,7 @@ public class StepInstructionsFragment extends Fragment  {
         } else {
             instructionText = RecipeJSON.getCurrRecipeStepDescription(RecipeJSON.getCurrentRecipeStepNum());
         }
-        Log.d(TAG, "onCreateView: $$$ stepnum="+RecipeJSON.getCurrentRecipeStepNum()+" descrip["+instructionText+"]");
+        Log.d(TAG, "onCreateView: --- stepnum="+RecipeJSON.getCurrentRecipeStepNum()+" descrip["+instructionText+"]");
         TextView tv = rootView.findViewById(R.id.tv_stepinstructions);
         tv.setText(instructionText);
 

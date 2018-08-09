@@ -30,7 +30,6 @@ import java.util.logging.Handler;
 
 import static android.support.constraint.Constraints.TAG;
 
-//import okhttp3.internal.Util;
 
 public class MediaPlayerFragment extends Fragment {
     private SimpleExoPlayer mExoPlayer;
