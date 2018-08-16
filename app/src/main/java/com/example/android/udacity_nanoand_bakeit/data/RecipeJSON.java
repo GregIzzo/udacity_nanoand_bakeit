@@ -63,6 +63,46 @@ public class RecipeJSON {
             return 0;
         }
     }
+    public static int setCurrentRecipe(JSONObject jsonObject){
+        //ignore dataJSONArray. This routine is intended to setup the current recipe from
+        // a jsonobject built from json string data stored in SharedPreferences
+        if (jsonObject == null) return 0;
+
+        currentRecipe = jsonObject;
+        try {
+            currentRecipeListPosition = findRecipeOffset(jsonObject.getInt("id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            currentRecipeListPosition =-1;
+        }
+
+        return 1;
+    }
+    public static int findRecipeOffset(int recipeID){
+        if (dataJSONArray == null) return -1;
+        int rcount = dataJSONArray.length();
+        for (int i=0; i<rcount; i++){
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = dataJSONArray.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (jsonObject != null){
+                if (jsonObject.has("id")){
+                    try {
+                        if (recipeID == jsonObject.getInt("id")){
+                            //got it
+                            return i;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return -1;
+    }
     public static JSONObject getCurrentRecipe(){
         return currentRecipe;
     }

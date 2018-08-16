@@ -21,7 +21,9 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 
+import com.example.android.bakeit.BakeItIntentService;
 import com.example.android.bakeit.BakeItWidgetProvider;
+import com.example.android.udacity_nanoand_bakeit.data.PrefHandler;
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.example.android.udacity_nanoand_bakeit.utilities.NetworkUtils;
 
@@ -186,16 +188,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
 */
         RecipeJSON.setCurrentRecipe(listPosition);
+        //update prefs
+        PrefHandler.saveCurrentRecipeData(this, RecipeJSON.getCurrentRecipe(), RecipeJSON.getCurrentRecipeListPosition());
         Log.d(TAG, "-----MainActivity RecipeJSON.getCurrentRecipeOffset=" + RecipeJSON.getCurrentRecipeListPosition());
         ///////////////////UPDATE WIDGIT //////////////////////////////////
-        Context context = this;
+        BakeItIntentService.startActionUpdateIngredients(this);
 
+/*
+        Context context = this;
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.bake_it_widget);
         ComponentName thisWidget = new ComponentName(context, BakeItWidgetProvider.class);
       //  remoteViews.setTextViewText(R.id.tv_ingredients, RecipeJSON.getCurrIngredientsString());
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-
+*/
         ///////////////////////////////////////////////////////////////////
 
         Intent intent = new Intent(this, RecipeStepsActivity.class);
