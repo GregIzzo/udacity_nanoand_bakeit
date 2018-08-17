@@ -7,38 +7,49 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_quantity"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="100dp"
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        style="@style/IngredientQty"
-        android:background="@color/backgroundLight"
-        tools:text="QUANTITY" />
+        android:gravity="right"
+        android:id="@+id/ll_measure_holder"
 
-    <TextView
-        android:id="@+id/tv_measure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
+        >
 
-        style="@style/IngredientMeasure"
-        android:background="@color/backgroundLight"
-        tools:text="MEASURE" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_quantity"
+            style="@style/IngredientQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            android:background="@color/backgroundLight"
+            android:gravity="end"
+            android:text="TextView"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/tv_measure"
+            style="@style/IngredientMeasure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            android:background="@color/backgroundLight"
+            android:gravity="end"
+            android:text="TextView"
+            tools:text="TBSP" />
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_ingredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         style="@style/IngredienText"

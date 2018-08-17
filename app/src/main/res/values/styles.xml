@@ -26,11 +26,11 @@
 
     </style>
     <style name="IngredientQty" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/holo_blue_dark</item>
     </style>
     <style name="IngredientMeasure" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/holo_blue_dark</item>
     </style>
     <style name="IngredienText" parent="TextAppearance.AppCompat">
