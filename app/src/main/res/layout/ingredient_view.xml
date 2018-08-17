@@ -5,38 +5,43 @@
     android:id="@+id/cl_ingredient_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tv_quantity"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        style="@style/IngredientQty"
         android:background="@color/backgroundLight"
         tools:text="QUANTITY" />
 
     <TextView
         android:id="@+id/tv_measure"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+
+        style="@style/IngredientMeasure"
         android:background="@color/backgroundLight"
         tools:text="MEASURE" />
-
+</LinearLayout>
     <TextView
         android:id="@+id/tv_ingredient"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-
+        style="@style/IngredienText"
         android:background="@color/backgroundLight"
         tools:text="INGREDIENT" />
 

@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
        //BK recyclerView = findViewById(R.id.recipe_list);
         assert recyclerView != null;
 
+
         getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this );
 
     }
@@ -133,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             protected void onStartLoading() {
                 Log.d(TAG, "onStartLoading: ***** onStartLoading ******");
+                if (RecipeJSON.getRawDataString() != null){
+                    mRecipeData = RecipeJSON.getRawDataString();
+                }
                 if (mRecipeData != null) {
                     Log.d(TAG, "onStartLoading: mRecipeData NOT null:" + mRecipeData.length());
                     deliverResult(mRecipeData);

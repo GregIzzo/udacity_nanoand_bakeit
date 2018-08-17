@@ -36,19 +36,22 @@ public class IngredientListActivity extends AppCompatActivity implements Ingredi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients_list);
-       Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        toolbar.setTitle(RecipeJSON.getCurrRecipeName() + " : " + getString(R.string.ingredient_step) );
+        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle(RecipeJSON.getCurrRecipeName() + " : " + getString(R.string.ingredient_step));
+        }
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class RecipeJSON {
     private static JSONArray dataJSONArray = null;//array of recipe objects
     private static JSONObject currentRecipe = null;// currently selected recipe
+    private static String rawDataString = null;
     private static int currentRecipeStepNum =0;
     private static int currentRecipeListPosition =0;//offset into data for current recipe
     private static String TAG = "RecipeJSON";
@@ -34,16 +35,21 @@ public class RecipeJSON {
         if (jsonString == null){
             Log.d(TAG, "!!!!! !!!!! !!!!! setDataString: USING STATIC DATA !!!!!!!!!!");
             jsonString = staticData;
+            rawDataString = jsonString;
         }
          try {
 
             dataJSONArray = new JSONArray(jsonString);
+             rawDataString = jsonString;
              Log.d(TAG, "setDataString: ARRAY SIZE=" + dataJSONArray.length());
         } catch (JSONException e) {
                Log.i(TAG, "setDataString: ^^^^^^^^^ ERROR json array could not be created from incoming data");
             e.printStackTrace();
         }
 
+    }
+    public static String getRawDataString(){
+       return rawDataString;
     }
     public static int getCurrentRecipeListPosition(){
         return currentRecipeListPosition;

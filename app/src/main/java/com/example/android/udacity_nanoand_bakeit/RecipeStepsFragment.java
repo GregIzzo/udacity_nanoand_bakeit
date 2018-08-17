@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,9 +57,9 @@ public class RecipeStepsFragment extends Fragment  implements RecipeStepsRecycle
         myJsonObject = RecipeJSON.getCurrentRecipe();
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(RecipeJSON.getCurrRecipeName());
+             Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+            if (toolbar != null) {
+                toolbar.setTitle(RecipeJSON.getCurrRecipeName());
             }
      //   }
     }

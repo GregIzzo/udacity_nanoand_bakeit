@@ -1,6 +1,6 @@
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -10,22 +10,12 @@
     <TextView
         android:id="@+id/tv_recipe_id"
         style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:textSize="18sp"
         tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
         tools:text="00" />
-
-    <TextView
-        android:id="@+id/tv_recipe_shortdescription"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:textSize="18sp"
-        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
-        tools:text="--short description--" />
 
     <ImageView
         android:id="@+id/tv_recipe_videourl"
@@ -43,6 +33,17 @@
         android:padding="2dp"
         tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
         android:src="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/tv_recipe_shortdescription"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="18sp"
+        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
+        tools:text="--short description--" />
+
 
 
 </LinearLayout>
