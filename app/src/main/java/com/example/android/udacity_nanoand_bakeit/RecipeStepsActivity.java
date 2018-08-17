@@ -153,7 +153,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "SSSSSS onStop: currindex="+RecipeJSON.getCurrentRecipeListPosition());
         getIntent().putExtra(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
     }
 /*
@@ -168,7 +167,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
 */
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG, "SSSSSS onSaveInstanceState: position="+RecipeJSON.getCurrentRecipeListPosition());
         outState.putInt(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
         super.onSaveInstanceState(outState);
     }
@@ -176,9 +174,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG, "SSSSSS onRestoreInstanceState: key exists?("+savedInstanceState.containsKey(CURR_RECIPE_INDEX)+") ");
         if (savedInstanceState.containsKey(CURR_RECIPE_INDEX)){
-            Log.d(TAG, "SSSSSSSSSSSSSSSSSSSSSS: oldposition= "+ savedInstanceState.getInt(CURR_RECIPE_INDEX));
             RecipeJSON.setCurrentRecipe(savedInstanceState.getInt(CURR_RECIPE_INDEX));
         }
     }

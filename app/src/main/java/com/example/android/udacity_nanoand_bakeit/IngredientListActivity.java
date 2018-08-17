@@ -22,6 +22,7 @@ import butterknife.BindView;
 
 public class IngredientListActivity extends AppCompatActivity implements IngredientListRecyclerAdapter.IngredientListAdapterOnClickHandler {
 
+    public static final String CURR_RECIPE_INDEX = "current_recipe_index";
     private RecyclerView recyclerView;
     private IngredientListRecyclerAdapter ingredientListRecyclerAdapter;
     //Toolbar toolbar;
@@ -31,10 +32,18 @@ public class IngredientListActivity extends AppCompatActivity implements Ingredi
    // @BindView(R.id.detail_toolbar) Toolbar toolbar;
    // @BindView(R.id.fab) FloatingActionButton fab;
    // @BindView(R.id.list_container) RecyclerView recyclerView;
+   private int recipeIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null){
+            recipeIndex = savedInstanceState.getInt(CURR_RECIPE_INDEX);
+            RecipeJSON.setCurrentRecipe(recipeIndex);
+        } else {
+            recipeIndex = RecipeJSON.getCurrentRecipeListPosition();
+        }
         setContentView(R.layout.activity_ingredients_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         if (toolbar != null) {
@@ -58,7 +67,7 @@ public class IngredientListActivity extends AppCompatActivity implements Ingredi
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if (savedInstanceState == null) {
+ //       if (savedInstanceState == null) {
             recyclerView = findViewById(R.id.list_container);
             assert recyclerView != null;
 
@@ -85,7 +94,7 @@ public class IngredientListActivity extends AppCompatActivity implements Ingredi
                 mLayout.addView(view);
             }
 */
-        }
+   //     }
     }
 
 
@@ -108,5 +117,22 @@ public class IngredientListActivity extends AppCompatActivity implements Ingredi
     @Override
     public void onClick(int listPosition) {
 
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getIntent().putExtra(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+        super.onSaveInstanceState(outState);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey(CURR_RECIPE_INDEX)){
+            RecipeJSON.setCurrentRecipe(savedInstanceState.getInt(CURR_RECIPE_INDEX));
+        }
     }
 }
