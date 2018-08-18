@@ -13,6 +13,7 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 
@@ -22,7 +23,10 @@ import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
  * item details are presented side-by-side with a list of items
  * in a {@link MainActivity}.
  */
-public class RecipeStepsActivity extends AppCompatActivity implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler{
+public class RecipeStepsActivity extends AppCompatActivity
+        implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler,
+        StepNavigationFragment.OnNavClickListener
+{
 
     public static final String CURR_RECIPE_INDEX = "current_recipe_index";
     private static String TAG = "GGG";
@@ -30,6 +34,15 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     private RecyclerView recyclerView;
     private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
     private int recipeIndex = -1;
+
+    //mTwoPane : True=two pane view, false=one pane view
+    //
+    private boolean mTwoPane;
+    //Used for 2 pane mode - duplicating functionality from StepDetailActivity
+    MediaPlayerFragment playerFragment;
+    StepInstructionsFragment stepInstructionsFragment;
+    StepNavigationFragment stepNavigationFragment;
+
 
 
     @Override
@@ -49,9 +62,15 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
 
         if(findViewById(R.id.step_detail_container) != null) {
             //Dual Pane Mode
+            mTwoPane = true;
+            //
+            // (1) change itemClicks to NOT open StepDetailActivity
+            // (2) Manipulate fragments using same code used by StepDetailActivity
 
         } else {
             //Single Pane Mode
+            mTwoPane = false;
+
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -113,6 +132,14 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             recipeStepsRecyclerAdapter = new RecipeStepsRecyclerAdapter(this);
             recyclerView.setAdapter(recipeStepsRecyclerAdapter);
             recipeStepsRecyclerAdapter.setRecipeData("123");
+        if (mTwoPane) {
+            //dual pane mode, setup the fragments
+            if (savedInstanceState == null) {
+                showStep("new");
+            } else {
+                showStep("restore");
+            }
+        }
 
 //////////////////////////        }
     }
@@ -138,21 +165,21 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     @Override
     public void onClick(int listPosition) {
         Log.d(TAG, "RecipeStepsActivitty onClick: pos=" + listPosition);
+        if (mTwoPane) {
+            //Two Pane Mode
 
-       // RecipeJSON.setCurrentRecipe(listPosition);
-        //Intent intent = new Intent(this, RecipeStepsActivity.class);
-        //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
-        //startActivity(intent);
-
-        if (listPosition == 0){
-            //ingredients
-            Intent intent = new Intent(this, IngredientListActivity.class);
-            startActivity(intent);
         } else {
-            RecipeJSON.setCurrentRecipeStep(listPosition-1);
-            Intent intent = new Intent(this, StepDetailActivity.class);
-            //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
-            startActivity(intent);
+            //single pane mode, launch new activity
+            if (listPosition == 0) {
+                //ingredients
+                Intent intent = new Intent(this, IngredientListActivity.class);
+                startActivity(intent);
+            } else {
+                RecipeJSON.setCurrentRecipeStep(listPosition - 1);
+                Intent intent = new Intent(this, StepDetailActivity.class);
+                //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+                startActivity(intent);
+            }
         }
     }
 
@@ -183,5 +210,94 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         if (savedInstanceState.containsKey(CURR_RECIPE_INDEX)){
             RecipeJSON.setCurrentRecipe(savedInstanceState.getInt(CURR_RECIPE_INDEX));
         }
+    }
+
+    /*
+    Event listener /interface - called when a nav button in StepNavigationFragment is clicked
+    NEEDED FOR DUAL-PANE MODE, TO REACT TO NAVIGATION FRAGMENT
+     */
+    @Override
+    public void onNavButtonClicked(String action) {
+        Log.d(TAG, "onNavButtonClicked: ----- INSIDE STEPDETAILACTIVITY. nav=" + action);
+        switch(action){
+            case "home":
+                navigateUpTo(new Intent(this, RecipeStepsActivity.class));
+                break;
+            case "prev":
+                if (RecipeJSON.getCurrentRecipeStepNum() > 0){
+                    //decrement step
+                    RecipeJSON.setCurrentRecipeStep(RecipeJSON.getCurrentRecipeStepNum() - 1);
+                    showStep("replace");
+                } else {
+                    //Ingredients come before steps, so launch IngredientListActivity
+                    Intent intent = new Intent(this, IngredientListActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case "next":
+                int currstep = RecipeJSON.getCurrentRecipeStepNum();
+                if (currstep < RecipeJSON.getCurrRecipeStepCount() - 1){
+                    //go to next step
+                    RecipeJSON.setCurrentRecipeStep(RecipeJSON.getCurrentRecipeStepNum() + 1);
+                    showStep("replace");
+                } else {
+                    //Cant go further. Do nothing
+                    Toast.makeText(this, "You are on the last step. ", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
+    }
+    /*
+    REACT TO NAVIGATION BUTTONS
+    NEEDED FOR DUALPANE MODE
+     */
+    private void showStep(String action){
+        Log.d(TAG, "StepDetailActivity.showStep: action="+action);
+        //MEDIA PLAYER
+        String videoURL = RecipeJSON.getCurrRecipeStepVideoURL(RecipeJSON.getCurrentRecipeStepNum());
+
+        switch(action){
+            case "new":
+                playerFragment = new MediaPlayerFragment();
+                stepInstructionsFragment = new StepInstructionsFragment();
+                stepNavigationFragment = new StepNavigationFragment();
+                playerFragment.setVideoUri(videoURL);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
+                        .commit();
+
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
+                        .commit();
+                break;
+            case "replace":
+                playerFragment = new MediaPlayerFragment();
+                stepInstructionsFragment = new StepInstructionsFragment();
+                stepNavigationFragment = new StepNavigationFragment();
+                playerFragment.setVideoUri(videoURL);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
+                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
+                        .commit();
+                break;
+            case "restore":
+                playerFragment = (MediaPlayerFragment) getSupportFragmentManager()
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_MEDIAPLAY));
+                stepInstructionsFragment = (StepInstructionsFragment) getSupportFragmentManager()
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INSTRUCTIONS));
+                stepNavigationFragment = (StepNavigationFragment) getSupportFragmentManager()
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
+                break;
+        }
+
     }
 }

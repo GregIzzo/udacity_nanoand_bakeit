@@ -8,4 +8,9 @@
     <string name="nav_home">home</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="TAG_FRAGMENT_MEDIAPLAY">step_media_player</string>
+    <string name="TAG_FRAGMENT_INSTRUCTIONS">step_instructions</string>
+    <string name="TAG_FRAGMENT_NAVIGATION">step_navigation</string>
+
+
 </resources>

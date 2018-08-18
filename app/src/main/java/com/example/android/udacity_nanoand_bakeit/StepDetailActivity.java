@@ -32,11 +32,6 @@ public class StepDetailActivity extends AppCompatActivity
     StepInstructionsFragment stepInstructionsFragment;
     StepNavigationFragment stepNavigationFragment;
 
-    private String TAG_FRAGMENT_MEDIAPLAY = "step_media_player";
-    private String TAG_FRAGMENT_INSTRUCTIONS = "step_instructions";
-    private String TAG_FRAGMENT_NAVIGATION = "step_navigation";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,13 +91,14 @@ public class StepDetailActivity extends AppCompatActivity
                 stepNavigationFragment = new StepNavigationFragment();
                 playerFragment.setVideoUri(videoURL);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.mediaplayer_container, playerFragment,TAG_FRAGMENT_MEDIAPLAY)
+                        .add(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
                         .commit();
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.instructions_container, stepInstructionsFragment,TAG_FRAGMENT_INSTRUCTIONS)
+                        .add(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
                         .commit();
+
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.navigation_container, stepNavigationFragment,TAG_FRAGMENT_NAVIGATION)
+                        .add(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
                         .commit();
                 break;
             case "replace":
@@ -111,22 +107,22 @@ public class StepDetailActivity extends AppCompatActivity
                 stepNavigationFragment = new StepNavigationFragment();
                 playerFragment.setVideoUri(videoURL);
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.mediaplayer_container, playerFragment,TAG_FRAGMENT_MEDIAPLAY)
+                        .replace(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
                         .commit();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.instructions_container, stepInstructionsFragment,TAG_FRAGMENT_INSTRUCTIONS)
+                        .replace(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
                         .commit();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.navigation_container, stepNavigationFragment,TAG_FRAGMENT_NAVIGATION)
+                        .replace(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
                         .commit();
                  break;
             case "restore":
                 playerFragment = (MediaPlayerFragment) getSupportFragmentManager()
-                    .findFragmentByTag(TAG_FRAGMENT_MEDIAPLAY);
+                    .findFragmentByTag(getString(R.string.TAG_FRAGMENT_MEDIAPLAY));
                 stepInstructionsFragment = (StepInstructionsFragment) getSupportFragmentManager()
-                    .findFragmentByTag(TAG_FRAGMENT_INSTRUCTIONS);
+                    .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INSTRUCTIONS));
                 stepNavigationFragment = (StepNavigationFragment) getSupportFragmentManager()
-                    .findFragmentByTag(TAG_FRAGMENT_NAVIGATION);
+                    .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
                 break;
         }
 
