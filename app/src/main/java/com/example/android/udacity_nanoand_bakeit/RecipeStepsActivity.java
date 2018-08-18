@@ -35,6 +35,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recipesteps_list);
 
         if (savedInstanceState != null){
             Log.d(TAG, "SSSSS onCreate: picked from savedinstance="+savedInstanceState.getInt(CURR_RECIPE_INDEX));
@@ -45,12 +46,17 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             recipeIndex = RecipeJSON.getCurrentRecipeListPosition();
         }
 
-        setContentView(R.layout.activity_recipesteps_list);
+
+        if(findViewById(R.id.step_detail_container) != null) {
+            //Dual Pane Mode
+
+        } else {
+            //Single Pane Mode
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setTitle(RecipeJSON.getCurrRecipeName());
         }
-
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
