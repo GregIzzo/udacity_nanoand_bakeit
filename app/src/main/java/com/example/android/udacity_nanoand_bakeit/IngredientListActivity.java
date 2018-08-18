@@ -25,6 +25,8 @@ public class IngredientListActivity extends AppCompatActivity implements Ingredi
     public static final String CURR_RECIPE_INDEX = "current_recipe_index";
     private RecyclerView recyclerView;
     private IngredientListRecyclerAdapter ingredientListRecyclerAdapter;
+
+    StepNavigationFragment stepNavigationFragment;
     //Toolbar toolbar;
    // FloatingActionButton fab;
    // RecyclerView recyclerView;
