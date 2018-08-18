@@ -12,6 +12,7 @@ public class RecipeJSON {
     private static JSONArray dataJSONArray = null;//array of recipe objects
     private static JSONObject currentRecipe = null;// currently selected recipe
     private static String rawDataString = null;
+    private static boolean showingIngredients = false;
     private static int currentRecipeStepNum =0;
     private static int currentRecipeListPosition =0;//offset into data for current recipe
     private static String TAG = "RecipeJSON";
@@ -62,6 +63,8 @@ public class RecipeJSON {
         if (position >= dataJSONArray.length()) return 0;
         try {
             currentRecipe = dataJSONArray.getJSONObject(position);
+            currentRecipeStepNum = 0;
+            setShowingIngredients(true);
             return 1;
         } catch (JSONException e){
             //a problem happened
@@ -75,6 +78,8 @@ public class RecipeJSON {
         if (jsonObject == null) return 0;
 
         currentRecipe = jsonObject;
+        currentRecipeStepNum = 0;
+        setShowingIngredients(true);
         try {
             currentRecipeListPosition = findRecipeOffset(jsonObject.getInt("id"));
         } catch (JSONException e) {
@@ -123,6 +128,8 @@ public class RecipeJSON {
     public static int getCurrentRecipeStepNum(){
         return currentRecipeStepNum;
     }
+    public static boolean isShowingIngredients() { return showingIngredients;}
+    public static void setShowingIngredients(boolean showingIngredientsState) { showingIngredients = showingIngredientsState;}
     public static ArrayList<String> getCurrentRecipeIngredientsArray (){
         if (currentRecipe == null) return null;
        return getIngredientsArray(currentRecipe);

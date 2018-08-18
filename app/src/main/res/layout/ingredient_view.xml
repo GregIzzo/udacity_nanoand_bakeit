@@ -26,7 +26,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:paddingTop="8dp"
-            android:background="@color/backgroundLight"
             android:gravity="end"
             android:text="TextView"
             tools:text="2" />
@@ -40,7 +39,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:paddingTop="8dp"
-            android:background="@color/backgroundLight"
             android:gravity="end"
             android:text="TextView"
             tools:text="TBSP" />
@@ -53,7 +51,6 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         style="@style/IngredienText"
-        android:background="@color/backgroundLight"
         tools:text="INGREDIENT" />
 
 </LinearLayout>

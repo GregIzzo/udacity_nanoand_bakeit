@@ -43,16 +43,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
         </activity>
-        <activity
-            android:name=".IngredientListActivity"
-            android:label="Ingredient List"
-            android:parentActivityName=".RecipeStepsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity" />
-        </activity>
-
         <receiver android:name="com.example.android.bakeit.BakeItWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

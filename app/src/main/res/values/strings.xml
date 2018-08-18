@@ -11,6 +11,8 @@
     <string name="TAG_FRAGMENT_MEDIAPLAY">step_media_player</string>
     <string name="TAG_FRAGMENT_INSTRUCTIONS">step_instructions</string>
     <string name="TAG_FRAGMENT_NAVIGATION">step_navigation</string>
+    <string name="TAG_FRAGMENT_INGREDIENTS">step_ingredients</string>
+
 
 
 </resources>

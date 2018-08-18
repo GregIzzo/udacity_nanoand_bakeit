@@ -180,41 +180,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onClick(int listPosition) {
         Log.d(TAG, "MainActivity onClick: pos=" + listPosition);
-        /*
-        if (mTwoPane) {
-            Bundle arguments = new Bundle();
-            arguments.putInt(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
-            RecipeStepsFragment fragment = new RecipeStepsFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipe_detail_container, fragment)
-                    .commit();
-        } else {
-*/
         RecipeJSON.setCurrentRecipe(listPosition);
         //update prefs
         PrefHandler.saveCurrentRecipeData(this, RecipeJSON.getCurrentRecipe(), RecipeJSON.getCurrentRecipeListPosition());
         Log.d(TAG, "-----MainActivity RecipeJSON.getCurrentRecipeOffset=" + RecipeJSON.getCurrentRecipeListPosition());
         ///////////////////UPDATE WIDGIT //////////////////////////////////
         BakeItIntentService.startActionUpdateIngredients(this);
-
-/*
-        Context context = this;
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.bake_it_widget);
-        ComponentName thisWidget = new ComponentName(context, BakeItWidgetProvider.class);
-      //  remoteViews.setTextViewText(R.id.tv_ingredients, RecipeJSON.getCurrIngredientsString());
-        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-*/
         ///////////////////////////////////////////////////////////////////
 
         Intent intent = new Intent(this, RecipeStepsActivity.class);
         intent.putExtra(RecipeStepsActivity.CURR_RECIPE_INDEX, listPosition);
 
             startActivity(intent);
-/*
-        }
-        */
-
     }
 }

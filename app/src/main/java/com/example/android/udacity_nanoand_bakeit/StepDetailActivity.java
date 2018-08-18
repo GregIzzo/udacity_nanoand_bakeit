@@ -17,6 +17,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
@@ -31,12 +32,35 @@ public class StepDetailActivity extends AppCompatActivity
     MediaPlayerFragment playerFragment;
     StepInstructionsFragment stepInstructionsFragment;
     StepNavigationFragment stepNavigationFragment;
+    IngredientListFragment stepIngredientsFragment;
+    FrameLayout ingredientsFrame;
+    FrameLayout mediaPlayerFrame ;
+    FrameLayout recipeInstructionsFrame;
+
+    public static final String CURR_RECIPE_INDEX = "current_recipe_index";
+    public static final String CURR_RECIPE_INGREDIENTSSHOWING = "current_recipe_ingredients_showing";
+    private int recipeIndex = -1;
+    private boolean ingredientsShowing = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "StepDetailActivity.onCreate: STARTING ");
         setContentView(R.layout.activity_step_detail);
+        if (savedInstanceState != null){
+            recipeIndex = savedInstanceState.getInt(CURR_RECIPE_INDEX);
+            ingredientsShowing = savedInstanceState.getBoolean(CURR_RECIPE_INGREDIENTSSHOWING);
+            RecipeJSON.setCurrentRecipe(recipeIndex);
+            RecipeJSON.setShowingIngredients(ingredientsShowing);
+        } else {
+            recipeIndex = RecipeJSON.getCurrentRecipeListPosition();
+            ingredientsShowing =RecipeJSON.isShowingIngredients();
+        }
+        ingredientsFrame = findViewById(R.id.ingredients_container);
+        mediaPlayerFrame = findViewById(R.id.mediaplayer_container);
+        recipeInstructionsFrame = findViewById(R.id.instructions_container);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(RecipeJSON.getCurrRecipeName());
@@ -59,7 +83,7 @@ public class StepDetailActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             showStep("new");
         } else {
-            showStep("restore");
+             showStep("restore");
         }
         mGestureDetector = new GestureDetectorCompat(this, this);
         mGestureDetector.setOnDoubleTapListener(this);
@@ -86,48 +110,99 @@ public class StepDetailActivity extends AppCompatActivity
 
         switch(action){
             case "new":
-                playerFragment = new MediaPlayerFragment();
-                stepInstructionsFragment = new StepInstructionsFragment();
                 stepNavigationFragment = new StepNavigationFragment();
-                playerFragment.setVideoUri(videoURL);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
-                        .commit();
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
-                        .commit();
 
+                //Determine if we should show Ingredients or a recipe step
+                if (RecipeJSON.isShowingIngredients()){
+                    //show ingredients fragment in place of Video+instructions
+                    ingredientsFrame.setVisibility(View.VISIBLE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.GONE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.GONE);
+                    stepIngredientsFragment = new IngredientListFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.ingredients_container, stepIngredientsFragment,getString(R.string.TAG_FRAGMENT_INGREDIENTS))
+                            .commit();
+
+                } else {
+                    //show video + instructions
+                    ingredientsFrame.setVisibility(View.GONE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.VISIBLE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.VISIBLE);
+
+                    playerFragment = new MediaPlayerFragment();
+                    stepInstructionsFragment = new StepInstructionsFragment();
+
+
+                    playerFragment.setVideoUri(videoURL);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
+                            .commit();
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
+                            .commit();
+
+                }
+                //Always show navigation
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
                         .commit();
+
                 break;
             case "replace":
-                playerFragment = new MediaPlayerFragment();
-                stepInstructionsFragment = new StepInstructionsFragment();
+                //Determine if we should show Ingredients or a recipe step
                 stepNavigationFragment = new StepNavigationFragment();
-                playerFragment.setVideoUri(videoURL);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
-                        .commit();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
-                        .commit();
+                if (RecipeJSON.isShowingIngredients()) {
+                    //show ingredients fragment in place of Video+instructions
+                    ingredientsFrame.setVisibility(View.VISIBLE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.GONE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.GONE);
+                    stepIngredientsFragment = new IngredientListFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.ingredients_container, stepIngredientsFragment,getString(R.string.TAG_FRAGMENT_INGREDIENTS))
+                            .commit();
+                } else {
+                    //show video + instructions
+                    ingredientsFrame.setVisibility(View.GONE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.VISIBLE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.VISIBLE);
+
+                    playerFragment = new MediaPlayerFragment();
+                    stepInstructionsFragment = new StepInstructionsFragment();
+                    playerFragment.setVideoUri(videoURL);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
+                            .commit();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.instructions_container, stepInstructionsFragment,getString(R.string.TAG_FRAGMENT_INSTRUCTIONS))
+                            .commit();
+
+                }
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
                         .commit();
-                 break;
+                break;
             case "restore":
                 playerFragment = (MediaPlayerFragment) getSupportFragmentManager()
-                    .findFragmentByTag(getString(R.string.TAG_FRAGMENT_MEDIAPLAY));
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_MEDIAPLAY));
                 stepInstructionsFragment = (StepInstructionsFragment) getSupportFragmentManager()
-                    .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INSTRUCTIONS));
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INSTRUCTIONS));
                 stepNavigationFragment = (StepNavigationFragment) getSupportFragmentManager()
-                    .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
+                stepIngredientsFragment = (IngredientListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INGREDIENTS));
+
                 break;
         }
 
-    }
-    @Override
+    }    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
@@ -159,15 +234,26 @@ public class StepDetailActivity extends AppCompatActivity
                     showStep("replace");
                 } else {
                     //Ingredients come before steps, so launch IngredientListActivity
+                    RecipeJSON.setShowingIngredients(true);
+                    /*
                     Intent intent = new Intent(this, IngredientListActivity.class);
                     startActivity(intent);
+                    */
+                    showStep("replace");
                 }
+
                 break;
             case "next":
                 int currstep = RecipeJSON.getCurrentRecipeStepNum();
+
                 if (currstep < RecipeJSON.getCurrRecipeStepCount() - 1){
                     //go to next step
-                    RecipeJSON.setCurrentRecipeStep(RecipeJSON.getCurrentRecipeStepNum() + 1);
+                    if (RecipeJSON.isShowingIngredients()){
+                        RecipeJSON.setCurrentRecipeStep(0);
+                        RecipeJSON.setShowingIngredients(false);
+                    } else {
+                        RecipeJSON.setCurrentRecipeStep(RecipeJSON.getCurrentRecipeStepNum() + 1);
+                    }
                     showStep("replace");
                 } else {
                     //Cant go further. Do nothing

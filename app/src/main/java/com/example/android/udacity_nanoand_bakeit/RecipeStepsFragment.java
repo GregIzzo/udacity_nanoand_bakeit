@@ -99,14 +99,15 @@ public class RecipeStepsFragment extends Fragment  implements RecipeStepsRecycle
 
         if (listPosition == 0){
             //ingredients
-            Intent intent = new Intent(getActivity(), IngredientListActivity.class);
-            startActivity(intent);
+            RecipeJSON.setCurrentRecipeStep(0);
+            RecipeJSON.setShowingIngredients(true);
         } else {
             RecipeJSON.setCurrentRecipeStep(listPosition-1);
-            Intent intent = new Intent(getActivity(), StepDetailActivity.class);
-            //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
-            startActivity(intent);
+
         }
+        Intent intent = new Intent(getActivity(), StepDetailActivity.class);
+        //    intent.putExtra(RecipeStepsFragment.ARG_RECIPE_INDEX, listPosition);
+        startActivity(intent);
     }
 
 }

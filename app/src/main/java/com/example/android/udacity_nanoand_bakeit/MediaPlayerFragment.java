@@ -37,33 +37,35 @@ public class MediaPlayerFragment extends Fragment {
     private MediaSessionCompat mMediaSession;
 
     private Uri videoUri;
-    private String videoPath ="";
+    private String videoPath = "";
 
     public static final String VIDEO_PATH = "video_path";
 
-    public MediaPlayerFragment(){
+    public MediaPlayerFragment() {
     }
-    public void setVideoUri(String url){
+
+    public void setVideoUri(String url) {
         videoPath = url;
         videoUri = null;
         if (videoPath.length() > 0) {
-            Log.d(TAG, "MediaPlayerFragment.setVideUri: videopath="+videoPath);
+            Log.d(TAG, "MediaPlayerFragment.setVideUri: videopath=" + videoPath);
             videoUri = Uri.parse(videoPath);
         } else {
             Log.d(TAG, "MediaPlayerFragment.setVideUri: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Load the saved state
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             setVideoUri(savedInstanceState.getString(VIDEO_PATH));
-         }
+        }
         View rootView = inflater.inflate(R.layout.mediaplayer_view, container, false);
         mPlayerView = rootView.findViewById(R.id.tv_mediaplayer);
-        Log.d(TAG, "*** MediaPlayerFragment.onCreateView: CREATING MEDIA PLAY FRAGMENT mPlayerView["+mPlayerView+"]");
+        Log.d(TAG, "*** MediaPlayerFragment.onCreateView: CREATING MEDIA PLAY FRAGMENT mPlayerView[" + mPlayerView + "]");
 
         assert mPlayerView != null;
         mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video));
@@ -71,18 +73,18 @@ public class MediaPlayerFragment extends Fragment {
         return rootView;
     }
 
-    public void initializePlayer( ) {
+    public void initializePlayer() {
         Context context = getContext();
         // 1. Create a default TrackSelector
-       // Handler mainHandler = new Handler();
+        // Handler mainHandler = new Handler();
 // Measures bandwidth during playback. Can be null if not required.
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory =new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        DefaultTrackSelector trackSelector =new DefaultTrackSelector(videoTrackSelectionFactory);
+        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 // 2. Create the player
         SimpleExoPlayer player =
                 ExoPlayerFactory.newSimpleInstance(context, trackSelector);
-        Log.d(TAG, "### mediaPLAYER ## initializePlayer:player="+player+" videoPath="+videoPath+" videoUri="+videoUri);
+        Log.d(TAG, "### mediaPLAYER ## initializePlayer:player=" + player + " videoPath=" + videoPath + " videoUri=" + videoUri);
 
 // Bind the player to the view.
         mPlayerView.setPlayer(player);
@@ -111,8 +113,9 @@ public class MediaPlayerFragment extends Fragment {
         }
         */
     }
+
     @Override
-    public void onSaveInstanceState(Bundle currentState ) {
+    public void onSaveInstanceState(Bundle currentState) {
         currentState.putString(VIDEO_PATH, videoPath);
     }
 
