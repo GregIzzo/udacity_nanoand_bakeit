@@ -38,8 +38,10 @@ public class StepDetailActivity extends AppCompatActivity
     FrameLayout recipeInstructionsFrame;
 
     public static final String CURR_RECIPE_INDEX = "current_recipe_index";
+    public static final String CURR_RECIPE_STEP = "current_recipe_step";
     public static final String CURR_RECIPE_INGREDIENTSSHOWING = "current_recipe_ingredients_showing";
     private int recipeIndex = -1;
+    private int recipeStep = 0;
     private boolean ingredientsShowing = false;
 
 
@@ -50,13 +52,17 @@ public class StepDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_step_detail);
         if (savedInstanceState != null){
             recipeIndex = savedInstanceState.getInt(CURR_RECIPE_INDEX);
+            recipeStep = savedInstanceState.getInt(CURR_RECIPE_STEP);
             ingredientsShowing = savedInstanceState.getBoolean(CURR_RECIPE_INGREDIENTSSHOWING);
             RecipeJSON.setCurrentRecipe(recipeIndex);
+            RecipeJSON.setCurrentRecipeStep(recipeStep);
             RecipeJSON.setShowingIngredients(ingredientsShowing);
         } else {
             recipeIndex = RecipeJSON.getCurrentRecipeListPosition();
+            recipeStep = RecipeJSON.getCurrentRecipeStepNum();
             ingredientsShowing =RecipeJSON.isShowingIngredients();
         }
+        Log.d(TAG, "STEPDETAILACTIVITY.onCreate: recipe list position:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum()+" ingred showing:"+RecipeJSON.isShowingIngredients());
         ingredientsFrame = findViewById(R.id.ingredients_container);
         mediaPlayerFrame = findViewById(R.id.mediaplayer_container);
         recipeInstructionsFrame = findViewById(R.id.instructions_container);
@@ -198,6 +204,22 @@ public class StepDetailActivity extends AppCompatActivity
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
                 stepIngredientsFragment = (IngredientListFragment) getSupportFragmentManager()
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INGREDIENTS));
+                if (RecipeJSON.isShowingIngredients()) {
+                    //show ingredients fragment in place of Video+instructions
+                    ingredientsFrame.setVisibility(View.VISIBLE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.GONE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.GONE);
+                } else {
+                    //show video + instructions
+                    ingredientsFrame.setVisibility(View.GONE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.VISIBLE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.VISIBLE);
+
+                }
 
                 break;
         }
@@ -349,4 +371,37 @@ public class StepDetailActivity extends AppCompatActivity
         Log.d(TAG, "onDoubleTapEvent: !!!");
         return false;
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "STEPDETAILACTIVITY.onStop: recipe list position:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum()+" ingred showing:"+RecipeJSON.isShowingIngredients());
+        getIntent().putExtra(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+        getIntent().putExtra(CURR_RECIPE_STEP, RecipeJSON.getCurrentRecipeStepNum());
+        getIntent().putExtra(CURR_RECIPE_INGREDIENTSSHOWING,RecipeJSON.isShowingIngredients());
+
+
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "STEPDETAILACTIVITY.onSaveInstanceState: recipe list position:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum()+" ingred showing:"+RecipeJSON.isShowingIngredients());
+        outState.putInt(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+        outState.putInt(CURR_RECIPE_STEP, RecipeJSON.getCurrentRecipeStepNum());
+        outState.putBoolean(CURR_RECIPE_INGREDIENTSSHOWING, RecipeJSON.isShowingIngredients());
+        super.onSaveInstanceState(outState);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey(CURR_RECIPE_INDEX)){
+            RecipeJSON.setCurrentRecipe(savedInstanceState.getInt(CURR_RECIPE_INDEX));
+        }
+        if (savedInstanceState.containsKey(CURR_RECIPE_STEP)){
+            RecipeJSON.setCurrentRecipeStep(savedInstanceState.getInt(CURR_RECIPE_STEP));
+        }
+        if (savedInstanceState.containsKey(CURR_RECIPE_INGREDIENTSSHOWING)){
+            RecipeJSON.setShowingIngredients(savedInstanceState.getBoolean(CURR_RECIPE_INGREDIENTSSHOWING));
+        }
+        Log.d(TAG, "STEPDETAILACTIVITY.onRestoreInstanceState: recipe list position:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum()+" ingred showing:"+RecipeJSON.isShowingIngredients());
+    }
+
 }

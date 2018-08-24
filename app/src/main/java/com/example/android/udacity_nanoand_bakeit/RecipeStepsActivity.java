@@ -383,6 +383,22 @@ public class RecipeStepsActivity extends AppCompatActivity
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
                 stepIngredientsFragment = (IngredientListFragment) getSupportFragmentManager()
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INGREDIENTS));
+                if (RecipeJSON.isShowingIngredients()) {
+                    //show ingredients fragment in place of Video+instructions
+                    ingredientsFrame.setVisibility(View.VISIBLE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.GONE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.GONE);
+                } else {
+                    //show video + instructions
+                    ingredientsFrame.setVisibility(View.GONE);
+                    //Hide mediaplayerfragment
+                    mediaPlayerFrame.setVisibility(View.VISIBLE);
+                    //Hide stepinstructionsfragment
+                    recipeInstructionsFrame.setVisibility(View.VISIBLE);
+
+                }
 
                 break;
         }
