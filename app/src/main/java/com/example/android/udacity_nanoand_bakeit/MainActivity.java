@@ -26,6 +26,7 @@ import com.example.android.bakeit.BakeItWidgetProvider;
 import com.example.android.udacity_nanoand_bakeit.data.PrefHandler;
 import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
 import com.example.android.udacity_nanoand_bakeit.utilities.NetworkUtils;
+import com.example.android.udacity_nanoand_bakeit.utilities.Utils;
 
 import java.net.URL;
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.recipe_list) RecyclerView recyclerView;
+    @BindView(R.id.progress_spinner_overlay) View progressSpinnerOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +90,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 */
        //BK recyclerView = findViewById(R.id.recipe_list);
         assert recyclerView != null;
-
-
+        //Show loading spinner
+        Log.d(TAG, "onLoadFinished: ***** TURN >>ON<< PROGRESS SPINNER *****");
+        Utils.animateView(progressSpinnerOverlay, View.VISIBLE, 0.4f, 200);
         getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this );
 
     }
@@ -170,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //Got data - so setup recycler view
         RecipeJSON.setDataString(s);
         setupRecyclerView( recyclerView);
+        Log.d(TAG, "onLoadFinished: ***** TURN OF PROGRESS SPINNER *****");
+        Utils.animateView(progressSpinnerOverlay, View.GONE, 0, 200);
     }
 
     @Override
