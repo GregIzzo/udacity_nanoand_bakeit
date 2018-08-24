@@ -80,8 +80,6 @@ public class RecipeStepsActivity extends AppCompatActivity
              ingredientsFrame = findViewById(R.id.ingredients_container);
              mediaPlayerFrame = findViewById(R.id.mediaplayer_container);
              recipeInstructionsFrame = findViewById(R.id.instructions_container);
-
-
         } else {
             //Single Pane Mode
             mTwoPane = false;
@@ -149,11 +147,14 @@ public class RecipeStepsActivity extends AppCompatActivity
             recipeStepsRecyclerAdapter.setRecipeData("123");
         if (mTwoPane) {
             //dual pane mode, setup the fragments
+            showStep("new");
+            /*
             if (savedInstanceState == null) {
                 showStep("new");
             } else {
                 showStep("restore");
             }
+            */
         }
 
 //////////////////////////        }
