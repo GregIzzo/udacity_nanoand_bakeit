@@ -30,13 +30,16 @@ public class RecipeStepsActivity extends AppCompatActivity
 {
 
     public static final String CURR_RECIPE_INDEX = "current_recipe_index";
+    public static final String CURR_RECIPE_STEP = "current_recipe_step";
     public static final String CURR_RECIPE_INGREDIENTSSHOWING = "current_recipe_ingredients_showing";
+
 
     private static String TAG = "GGG";
 
     private RecyclerView recyclerView;
     private RecipeStepsRecyclerAdapter recipeStepsRecyclerAdapter;
     private int recipeIndex = -1;
+    private int recipeStep = 0;
     private boolean ingredientsShowing = false;
 
     //mTwoPane : True=two pane view, false=one pane view
@@ -61,12 +64,15 @@ public class RecipeStepsActivity extends AppCompatActivity
         if (savedInstanceState != null){
             Log.d(TAG, "SSSSS onCreate: picked from savedinstance="+savedInstanceState.getInt(CURR_RECIPE_INDEX));
             recipeIndex = savedInstanceState.getInt(CURR_RECIPE_INDEX);
+            recipeStep = savedInstanceState.getInt(CURR_RECIPE_STEP);
             ingredientsShowing = savedInstanceState.getBoolean(CURR_RECIPE_INGREDIENTSSHOWING);
             RecipeJSON.setCurrentRecipe(recipeIndex);
+            RecipeJSON.setCurrentRecipeStep(recipeStep);
             RecipeJSON.setShowingIngredients(ingredientsShowing);
         } else {
             Log.d(TAG, "SSSSS onCreate: savedInstance=null, recipejson position = "+ RecipeJSON.getCurrentRecipeListPosition());
             recipeIndex = RecipeJSON.getCurrentRecipeListPosition();
+            recipeStep = RecipeJSON.getCurrentRecipeStepNum();
             ingredientsShowing =RecipeJSON.isShowingIngredients();
         }
 
@@ -147,14 +153,14 @@ public class RecipeStepsActivity extends AppCompatActivity
             recipeStepsRecyclerAdapter.setRecipeData("123");
         if (mTwoPane) {
             //dual pane mode, setup the fragments
-            showStep("new");
-            /*
+            //showStep("new");
+
             if (savedInstanceState == null) {
                 showStep("new");
             } else {
                 showStep("restore");
             }
-            */
+
         }
 
 //////////////////////////        }
@@ -211,8 +217,11 @@ public class RecipeStepsActivity extends AppCompatActivity
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "RECIPESTEPSACTIVITY.onStop: recipeindex:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum() +" ingshow"+RecipeJSON.isShowingIngredients());
         super.onStop();
         getIntent().putExtra(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+        getIntent().putExtra(CURR_RECIPE_STEP, RecipeJSON.getCurrentRecipeStepNum());
+        getIntent().putExtra(CURR_RECIPE_INGREDIENTSSHOWING,RecipeJSON.isShowingIngredients());
     }
 /*
     @Override
@@ -226,15 +235,25 @@ public class RecipeStepsActivity extends AppCompatActivity
 */
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "RECIPESTEPSACTIVITY.onSaveInstanceState: recipeindex:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum() +" ingshow"+RecipeJSON.isShowingIngredients());
         outState.putInt(CURR_RECIPE_INDEX, RecipeJSON.getCurrentRecipeListPosition());
+        outState.putInt(CURR_RECIPE_STEP, RecipeJSON.getCurrentRecipeStepNum());
+        outState.putBoolean(CURR_RECIPE_INGREDIENTSSHOWING, RecipeJSON.isShowingIngredients());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.d(TAG, "RECIPESTEPSACTIVITY.onRestoreInstanceState: recipeindex:"+RecipeJSON.getCurrentRecipeListPosition()+" step:"+RecipeJSON.getCurrentRecipeStepNum() +" ingshow"+RecipeJSON.isShowingIngredients());
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey(CURR_RECIPE_INDEX)){
             RecipeJSON.setCurrentRecipe(savedInstanceState.getInt(CURR_RECIPE_INDEX));
+        }
+        if (savedInstanceState.containsKey(CURR_RECIPE_STEP)){
+            RecipeJSON.setCurrentRecipeStep(savedInstanceState.getInt(CURR_RECIPE_STEP));
+        }
+        if (savedInstanceState.containsKey(CURR_RECIPE_INGREDIENTSSHOWING)){
+            RecipeJSON.setShowingIngredients(savedInstanceState.getBoolean(CURR_RECIPE_INGREDIENTSSHOWING));
         }
     }
 
