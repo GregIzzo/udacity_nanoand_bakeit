@@ -25,8 +25,9 @@ import com.example.android.udacity_nanoand_bakeit.data.RecipeJSON;
  * in a {@link MainActivity}.
  */
 public class RecipeStepsActivity extends AppCompatActivity
-        implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler,
-        StepNavigationFragment.OnNavClickListener
+        implements RecipeStepsRecyclerAdapter.RecipeStepsAdapterOnClickHandler
+        //NONAV ,
+        //NONAV  StepNavigationFragment.OnNavClickListener
 {
 
     public static final String CURR_RECIPE_INDEX = "current_recipe_index";
@@ -48,7 +49,7 @@ public class RecipeStepsActivity extends AppCompatActivity
     //Used for 2 pane mode - duplicating functionality from StepDetailActivity
     MediaPlayerFragment playerFragment;
     StepInstructionsFragment stepInstructionsFragment;
-    StepNavigationFragment stepNavigationFragment;
+    //NONAV StepNavigationFragment stepNavigationFragment;
     IngredientListFragment stepIngredientsFragment;
     FrameLayout ingredientsFrame;
     FrameLayout mediaPlayerFrame ;
@@ -261,6 +262,8 @@ public class RecipeStepsActivity extends AppCompatActivity
     Event listener /interface - called when a nav button in StepNavigationFragment is clicked
     NEEDED FOR DUAL-PANE MODE, TO REACT TO NAVIGATION FRAGMENT
      */
+    //NONAV
+    /*
     @Override
     public void onNavButtonClicked(String action) {
         Log.d(TAG, "onNavButtonClicked: ----- INSIDE STEPDETAILACTIVITY. nav=" + action);
@@ -276,10 +279,6 @@ public class RecipeStepsActivity extends AppCompatActivity
                 } else {
                     //Ingredients come before steps, so launch IngredientListActivity
                     RecipeJSON.setShowingIngredients(true);
-                    /*
-                    Intent intent = new Intent(this, IngredientListActivity.class);
-                    startActivity(intent);
-                    */
                     showStep("replace");
                 }
                 break;
@@ -303,6 +302,8 @@ public class RecipeStepsActivity extends AppCompatActivity
 
         }
     }
+    */
+
     /*
     REACT TO NAVIGATION BUTTONS
     NEEDED FOR DUALPANE MODE
@@ -314,7 +315,7 @@ public class RecipeStepsActivity extends AppCompatActivity
 
         switch(action){
             case "new":
-                stepNavigationFragment = new StepNavigationFragment();
+                //NONAV stepNavigationFragment = new StepNavigationFragment();
 
                 //Determine if we should show Ingredients or a recipe step
                 if (RecipeJSON.isShowingIngredients()){
@@ -351,14 +352,14 @@ public class RecipeStepsActivity extends AppCompatActivity
 
                 }
                 //Always show navigation
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
-                        .commit();
+                //NONAV  getSupportFragmentManager().beginTransaction()
+                //NONAV          .add(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
+                //NONAV          .commit();
 
                 break;
             case "replace":
                 //Determine if we should show Ingredients or a recipe step
-                stepNavigationFragment = new StepNavigationFragment();
+                //NONAV  stepNavigationFragment = new StepNavigationFragment();
                 if (RecipeJSON.isShowingIngredients()) {
                     //show ingredients fragment in place of Video+instructions
                     ingredientsFrame.setVisibility(View.VISIBLE);
@@ -389,17 +390,17 @@ public class RecipeStepsActivity extends AppCompatActivity
                             .commit();
 
                 }
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
-                        .commit();
+                //NONAV  getSupportFragmentManager().beginTransaction()
+                //NONAV          .replace(R.id.navigation_container, stepNavigationFragment,getString(R.string.TAG_FRAGMENT_NAVIGATION))
+                //NONAV          .commit();
                 break;
             case "restore":
                 playerFragment = (MediaPlayerFragment) getSupportFragmentManager()
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_MEDIAPLAY));
                 stepInstructionsFragment = (StepInstructionsFragment) getSupportFragmentManager()
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INSTRUCTIONS));
-                stepNavigationFragment = (StepNavigationFragment) getSupportFragmentManager()
-                        .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
+                //NONAV  stepNavigationFragment = (StepNavigationFragment) getSupportFragmentManager()
+                //NONAV         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_NAVIGATION));
                 stepIngredientsFragment = (IngredientListFragment) getSupportFragmentManager()
                         .findFragmentByTag(getString(R.string.TAG_FRAGMENT_INGREDIENTS));
                 if (RecipeJSON.isShowingIngredients()) {
