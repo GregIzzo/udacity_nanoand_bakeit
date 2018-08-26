@@ -11,12 +11,16 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -32,6 +36,8 @@ import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.android.udacity_nanoand_bakeit.R.dimen.recipecard_width;
 
 /**
  * An activity representing a list of Recipes. This activity
@@ -52,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIE_LOADER_ID= 24;
     private String mRecipeData = null;
 
+
    // private RecyclerView recyclerView;
     private RecipeListRecyclerAdapter recipeRecyclerAdapter;
 
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recipes_list);
         ButterKnife.bind(this);
 
@@ -99,9 +107,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
        // recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this,  mTwoPane));
+        //Compute the number of columns to use:
+        //Get Recipe Card Width
+        Log.d(TAG, "setupRecyclerView: STEP 1");
+        //compute column count:
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+
+       // float density  = getResources().getDisplayMetrics().density;
+        float dpWidth  = outMetrics.widthPixels;// / density;
+
+        int cardWidth = (int) getResources().getDimension(R.dimen.recipecard_width) +
+                (int) getResources().getDimension(R.dimen.recipecard_margin);
+        int columns = (int) Math.floor(dpWidth/cardWidth);
+        Log.d(TAG, "setupRecyclerView: !!!!!! cardWidth="+cardWidth+" screenwidth="+outMetrics.widthPixels+"  dpWidth="+dpWidth+" columns="+columns);
+
+
         Log.d(TAG, "setupRecyclerView: *** Setting Adapter");
-        // RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,2);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,columns);
+        //RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(mLayoutManager);
         recipeRecyclerAdapter  = new RecipeListRecyclerAdapter(this);
