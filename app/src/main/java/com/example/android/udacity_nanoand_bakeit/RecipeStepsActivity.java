@@ -97,6 +97,7 @@ public class RecipeStepsActivity extends AppCompatActivity
             toolbar.setTitle(RecipeJSON.getCurrRecipeName());
         }
         setSupportActionBar(toolbar);
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +108,7 @@ public class RecipeStepsActivity extends AppCompatActivity
                 }
             });
         }
+        */
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //Butterknife
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.fab) FloatingActionButton fab;
+   // @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.recipe_list) RecyclerView recyclerView;
     @BindView(R.id.progress_spinner_overlay) View progressSpinnerOverlay;
 
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         toolbar.setTitle(getTitle());
 
        //BK FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         .setAction("Action", null).show();
             }
         });
+        */
 /*
         if (findViewById(R.id.recipe_detail_container) != null) {
             // The detail container view will be present only in the

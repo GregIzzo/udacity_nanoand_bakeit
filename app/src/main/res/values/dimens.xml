@@ -8,6 +8,8 @@
     <dimen name="recipecard_width">200dp</dimen>
     <dimen name="detail_instruction_textsize">24sp</dimen>
     <dimen name="detail_ingredient_textsize">24sp</dimen>
+    <dimen name="recipe_step_icon_width">35dp</dimen>
+    <dimen name="recipe_step_icon_height">35dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

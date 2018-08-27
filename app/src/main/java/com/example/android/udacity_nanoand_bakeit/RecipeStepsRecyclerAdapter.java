@@ -36,6 +36,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
     public interface RecipeStepsAdapterOnClickHandler {
         void onClick(int listPosition);// throws JSONException;
     }
+
     /*
      * Constructor for RecipeStepsRecyclerAdapter - accepts number of items to display
      */
@@ -45,10 +46,10 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
     }
 
 
-    public class RecipeStepsAdapterViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
+    public class RecipeStepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-       // public final ImageView listItemRecipeImageView;
-      //  public final TextView listItemRecipeName;
+        // public final ImageView listItemRecipeImageView;
+        //  public final TextView listItemRecipeName;
 
         public final TextView stepId;
         public final TextView stepShortDesc;
@@ -57,14 +58,14 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
         public final ImageView stepImageURL;
 
 
-        public RecipeStepsAdapterViewHolder( View itemView) {
+        public RecipeStepsAdapterViewHolder(View itemView) {
             super(itemView);
-           // listItemRecipeImageView =  itemView.findViewById(R.id.iv_recipe_image);
-           // listItemRecipeName = itemView.findViewById(R.id.recipe_name);
+            // listItemRecipeImageView =  itemView.findViewById(R.id.iv_recipe_image);
+            // listItemRecipeName = itemView.findViewById(R.id.recipe_name);
 
             stepId = itemView.findViewById(R.id.tv_recipe_id);
             stepShortDesc = itemView.findViewById(R.id.tv_recipe_shortdescription);
-           // stepLongDesc = itemView.findViewById(R.id.tv_recipe_description);
+            // stepLongDesc = itemView.findViewById(R.id.tv_recipe_description);
 
             stepVideoURL = itemView.findViewById(R.id.tv_recipe_videourl);
             stepImageURL = itemView.findViewById(R.id.tv_recipe_imageurl);
@@ -114,6 +115,7 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
         View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
         return new RecipeStepsAdapterViewHolder(view);
     }
+
     /**
      * OnBindViewHolder is called by RecyclerView to display the data at the specified
      * position. In this method, update the contents of the ViewHolder to display the movie
@@ -121,32 +123,40 @@ public class RecipeStepsRecyclerAdapter extends RecyclerView.Adapter<RecipeSteps
      * passed into us.
      *
      * @param RecipeStepsAdapterViewHolder The RecipeStepsAdapterViewHolder which should be updated to represent the
-     *                                  contents of the item at the given position in the data set.
-     * @param position                  The position of the item within the adapter's data set.
+     *                                     contents of the item at the given position in the data set.
+     * @param position                     The position of the item within the adapter's data set.
      */
     @Override
     public void onBindViewHolder(@NonNull RecipeStepsAdapterViewHolder RecipeStepsAdapterViewHolder, int position) {
-        Log.d(TAG, "onBindViewHolder: >>>>>>>>>>>>>>> position = "+position);
-      if (position == 0) {
-        //Position 0 is the 'Ingredients' step
-        RecipeStepsAdapterViewHolder.stepShortDesc.setText(R.string.ingredient_step);
-        RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.GONE);
-        RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.GONE);
-    } else {
-        int step = position -1;
-        RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)));
-        RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
-        Log.d(TAG, "onBindViewHolder: ******** videurl["+RecipeJSON.getCurrRecipeStepVideoURL(step)+" length="+RecipeJSON.getCurrRecipeStepVideoURL(step).length()+"] imageurl["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+" length="+RecipeJSON.getCurrRecipeStepThumbnailURL(step).length()+"]");
-        if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepVideoURL(step))) {
-            RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.GONE);
-            Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Video icon");
+        Log.d(TAG, "onBindViewHolder: >>>>>>>>>>>>>>> position = " + position);
+        if (position == 0) {
+            //Position 0 is the 'Ingredients' step
+            RecipeStepsAdapterViewHolder.stepShortDesc.setText(R.string.ingredient_step);
+            RecipeStepsAdapterViewHolder.stepId.setText(" ");
+            RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.INVISIBLE);
+            RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.INVISIBLE);
+        } else {
+            int step = position - 1;
+            //Avoid showing "0" for step number
+            if (RecipeJSON.getCurrRecipeStepId(step) == 0) {
+                RecipeStepsAdapterViewHolder.stepId.setText(" ");
+            } else {
+                RecipeStepsAdapterViewHolder.stepId.setText("" + (RecipeJSON.getCurrRecipeStepId(step)));
+            }
+
+
+            RecipeStepsAdapterViewHolder.stepShortDesc.setText(RecipeJSON.getCurrRecipeStepShortDescription(step));
+            Log.d(TAG, "onBindViewHolder: ******** videurl[" + RecipeJSON.getCurrRecipeStepVideoURL(step) + " length=" + RecipeJSON.getCurrRecipeStepVideoURL(step).length() + "] imageurl[" + RecipeJSON.getCurrRecipeStepThumbnailURL(step) + " length=" + RecipeJSON.getCurrRecipeStepThumbnailURL(step).length() + "]");
+            if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepVideoURL(step))) {
+                RecipeStepsAdapterViewHolder.stepVideoURL.setVisibility(View.INVISIBLE);
+                Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Video icon");
+            }
+            if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepThumbnailURL(step))) {
+                RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.INVISIBLE);
+                Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Image icon");
+            }
+            Log.d(TAG, "onBindViewHolder: step:" + step + " thumnail[" + RecipeJSON.getCurrRecipeStepThumbnailURL(step) + "]");
         }
-        if (StringUtils.isEmpty(RecipeJSON.getCurrRecipeStepThumbnailURL(step))) {
-            RecipeStepsAdapterViewHolder.stepImageURL.setVisibility(View.GONE);
-            Log.d(TAG, "onBindViewHolder: ^^^^^^ Hiding Image icon");
-        }
-        Log.d(TAG, "onBindViewHolder: step:"+step+" thumnail["+RecipeJSON.getCurrRecipeStepThumbnailURL(step)+"]");
-    }
         /*
         if (imagePath != null && imagePath.length() > 0) {
             Log.d("ZZZZ", "onBindViewHolder: ABOUT TO RUN PICASSO. impagePath.length="+ imagePath.length());

@@ -7,20 +7,10 @@
     android:layout_margin="@dimen/recipecard_margin"
     >
 
-    <TextView
-        android:id="@+id/tv_recipe_id"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:textSize="18sp"
-        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
-        tools:text="00" />
-
     <ImageView
         android:id="@+id/tv_recipe_videourl"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/recipe_step_icon_width"
+        android:layout_height="@dimen/recipe_step_icon_height"
         android:padding="2dp"
         tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
 
@@ -28,11 +18,22 @@
 
     <ImageView
         android:id="@+id/tv_recipe_imageurl"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/recipe_step_icon_width"
+        android:layout_height="@dimen/recipe_step_icon_height"
         android:padding="2dp"
         tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
         android:src="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/tv_recipe_id"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="@dimen/recipe_step_icon_width"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="18sp"
+        tools:context="com.example.android.udacity_nanoand_bakeit.RecipeStepsActivity"
+        tools:text="00" />
+
 
     <TextView
         android:id="@+id/tv_recipe_shortdescription"
