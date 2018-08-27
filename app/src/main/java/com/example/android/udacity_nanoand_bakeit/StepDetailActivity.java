@@ -1,17 +1,11 @@
 package com.example.android.udacity_nanoand_bakeit;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
@@ -135,7 +129,7 @@ public class StepDetailActivity extends AppCompatActivity
                     stepInstructionsFragment = new StepInstructionsFragment();
 
 
-                    playerFragment.setVideoUri(videoURL);
+                    playerFragment.setMediaUri(videoURL);
                     getSupportFragmentManager().beginTransaction()
                             .add(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
                             .commit();
@@ -174,7 +168,7 @@ public class StepDetailActivity extends AppCompatActivity
 
                     playerFragment = new MediaPlayerFragment();
                     stepInstructionsFragment = new StepInstructionsFragment();
-                    playerFragment.setVideoUri(videoURL);
+                    playerFragment.setMediaUri(videoURL);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.mediaplayer_container, playerFragment,getString(R.string.TAG_FRAGMENT_MEDIAPLAY))
                             .commit();

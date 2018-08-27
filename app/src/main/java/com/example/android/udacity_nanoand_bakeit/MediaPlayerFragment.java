@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.android.udacity_nanoand_bakeit.utilities.Utils;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -20,14 +21,11 @@ import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-
-import java.util.logging.Handler;
+import com.squareup.picasso.Picasso;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -38,10 +36,11 @@ public class MediaPlayerFragment extends Fragment {
     private ImageView mNoPlayerView;
     private MediaSessionCompat mMediaSession;
 
-    private Uri videoUri;
-    private String videoPath = "";
+    private Uri mediaUri;
+    private String mediaPath = "";
     private long videoStartTime = 0L;
     private boolean videoExists = false;
+    private boolean imageExists = false;
 
     public static final String VIDEO_PATH = "video_path";
     public static final String VIDEO_TIME = "video_time";
@@ -49,14 +48,23 @@ public class MediaPlayerFragment extends Fragment {
     public MediaPlayerFragment() {
     }
 
-    public void setVideoUri(String url) {
-        videoPath = url;
-        videoUri = null;
+    public void setMediaUri(String url) {
+        //
+        // check end of url to detect image instead of video. If image, set flag
+        Log.d(TAG, "MediaPlayerFragment.setVideUri: videopath=" + mediaPath);
+        mediaPath = url;
+        mediaUri = null;
         videoExists = false;
-        if (videoPath.length() > 0) {
-            Log.d(TAG, "MediaPlayerFragment.setVideUri: videopath=" + videoPath);
-            videoUri = Uri.parse(videoPath);
-            videoExists = true;
+        imageExists = false;
+        if (mediaPath.length() > 0) {
+            mediaUri = Uri.parse(mediaPath);
+            if (Utils.isImageUrl(url)){
+                imageExists = true;
+                Log.d(TAG, "MediaPlayerFragment.setVideUri: IMAGE");
+            } else {
+                videoExists = true;
+                Log.d(TAG, "MediaPlayerFragment.setVideUri: VIDEO");
+            }
         } else {
             Log.d(TAG, "MediaPlayerFragment.setVideUri: @@@@@ THIS STEP HAS NO VIDEO @@@@@@@@@");
         }
@@ -65,10 +73,10 @@ public class MediaPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d(TAG, "MediaPlayerFragment.onCreateView: ");
         // Load the saved state
         if (savedInstanceState != null) {
-            setVideoUri(savedInstanceState.getString(VIDEO_PATH));
+            setMediaUri(savedInstanceState.getString(VIDEO_PATH));
             videoStartTime = savedInstanceState.getLong(VIDEO_TIME);
         }
         View rootView = inflater.inflate(R.layout.mediaplayer_view, container, false);
@@ -79,11 +87,15 @@ public class MediaPlayerFragment extends Fragment {
             mNoPlayerView.setVisibility(View.GONE);
             mPlayerView.setVisibility(View.VISIBLE);
             Log.d(TAG, "MediaPlayerFragment.onCreateView: CREATING VIDEO PLAYER");
-
             mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.blue_rect));
             initializePlayer();
+        } else if (imageExists) {
+            mNoPlayerView.setVisibility(View.VISIBLE);
+            mPlayerView.setVisibility(View.GONE);
+            initializeImage();
         } else {
             mNoPlayerView.setVisibility(View.VISIBLE);
+            mNoPlayerView.setImageResource(R.drawable.no_image);
             mPlayerView.setVisibility(View.GONE);
             Log.d(TAG, "MediaPlayerFragment.onCreateView: NO VIDEO - NO VIDEO PLAYER");
         }
@@ -101,7 +113,7 @@ public class MediaPlayerFragment extends Fragment {
 // 2. Create the player
         mExoPlayer =
                 ExoPlayerFactory.newSimpleInstance(context, trackSelector);
-        Log.d(TAG, "### mediaPLAYER ## initializePlayer:player=" + mExoPlayer + " videoPath=" + videoPath + " videoUri=" + videoUri);
+        Log.d(TAG, "### mediaPLAYER ## initializePlayer:player=" + mExoPlayer + " mediaPath=" + mediaPath + " mediaUri=" + mediaUri);
 
 // Bind the player to the view.
         mPlayerView.setPlayer(mExoPlayer);
@@ -111,7 +123,7 @@ public class MediaPlayerFragment extends Fragment {
                 Util.getUserAgent(context, "yourApplicationName"), bandwidthMeter);
 // This is the MediaSource representing the media to be played.
         MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(videoUri);
+                .createMediaSource(mediaUri);
 // Prepare the player with the source.
         mExoPlayer.prepare(videoSource);
         mExoPlayer.seekTo(videoStartTime);
@@ -131,10 +143,17 @@ public class MediaPlayerFragment extends Fragment {
         }
         */
     }
+    public void initializeImage(){
+        Picasso.get()
+                .load(mediaPath)
+                .placeholder(R.drawable.blue_rect)
+                .error(R.drawable.no_image)
+                .into(mNoPlayerView);
 
+    }
     @Override
     public void onSaveInstanceState(Bundle currentState) {
-        currentState.putString(VIDEO_PATH, videoPath);
+        currentState.putString(VIDEO_PATH, mediaPath);
         if (mExoPlayer != null){
             currentState.putLong(VIDEO_TIME, mExoPlayer.getCurrentPosition());
         } else {
@@ -147,6 +166,8 @@ public class MediaPlayerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mExoPlayer.release();
+        if (mExoPlayer != null) {
+            mExoPlayer.release();
+        }
     }
 }

@@ -31,4 +31,13 @@ public class Utils {
                     }
                 });
     }
+    public static boolean isImageUrl(String url){
+         String[] imageExtensions = new String[] {"jpg", "gif", "jpeg", "png"};
+         for (String currExtension : imageExtensions){
+             if (url.toLowerCase().endsWith(currExtension)){
+                 return true;
+             }
+         }
+         return false;
+    }
 }
