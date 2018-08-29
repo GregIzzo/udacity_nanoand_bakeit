@@ -30,9 +30,10 @@ public class RecipeJSON {
         //  [ {JsonObject}, {JsonObject},....]
         // where each JsonObject is a recipe Data object
         dataJSONArray = null;
-        //FORCE INTERNAL DATA TO BE USED
-        Log.d(TAG, "setDataString: =============== INTERNAL DATA IS BEING USED BY FORCE ==========");
-        jsonString = null;
+        //FORCE INTERNAL DATA TO BE USED -- FOR TESTING
+        //Log.d(TAG, "setDataString: =============== INTERNAL DATA IS BEING USED BY FORCE ==========");
+        //jsonString = null;
+        // END FORCE INTERNAL DATA
         if (jsonString == null){
             Log.d(TAG, "!!!!! !!!!! !!!!! setDataString: USING STATIC DATA !!!!!!!!!!");
             jsonString = staticData;
