@@ -31,6 +31,7 @@ Field and method binding for Android views which uses annotation processing to g
   * Code for identifying Swipe direction: https://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
   * Good docs on Widgets: https://developer.android.com/guide/topics/appwidgets/
   * Useful Progress Spinner discussion : https://stackoverflow.com/questions/18021148/display-a-loading-overlay-on-android-screen
+  * Helpful info for how to compute the number of grid columns based on screen width : https://stackoverflow.com/questions/26666143/recyclerview-gridlayoutmanager-how-to-auto-detect-span-count
   
 
   
