@@ -41,9 +41,11 @@ public class MediaPlayerFragment extends Fragment {
     private long videoStartTime = 0L;
     private boolean videoExists = false;
     private boolean imageExists = false;
+    private boolean videoStartState = false;
 
     public static final String VIDEO_PATH = "video_path";
     public static final String VIDEO_TIME = "video_time";
+    public static final String VIDEO_STATE = "video_state";
 
     public MediaPlayerFragment() {
     }
@@ -78,6 +80,7 @@ public class MediaPlayerFragment extends Fragment {
         if (savedInstanceState != null) {
             setMediaUri(savedInstanceState.getString(VIDEO_PATH));
             videoStartTime = savedInstanceState.getLong(VIDEO_TIME);
+            videoStartState = savedInstanceState.getBoolean(VIDEO_STATE);
         }
         View rootView = inflater.inflate(R.layout.mediaplayer_view, container, false);
         mPlayerView = rootView.findViewById(R.id.tv_mediaplayer);
@@ -127,7 +130,7 @@ public class MediaPlayerFragment extends Fragment {
 // Prepare the player with the source.
         mExoPlayer.prepare(videoSource);
         mExoPlayer.seekTo(videoStartTime);
-
+        mExoPlayer.setPlayWhenReady(videoStartState);
 
         /*
         if (mSimpleExoPlayer ==null){
@@ -143,6 +146,11 @@ public class MediaPlayerFragment extends Fragment {
         }
         */
     }
+    public void releasePlayer(){
+        if (mExoPlayer != null) {
+            mExoPlayer.release();
+        }
+    }
     public void initializeImage(){
         Picasso.get()
                 .load(mediaPath)
@@ -156,18 +164,30 @@ public class MediaPlayerFragment extends Fragment {
         currentState.putString(VIDEO_PATH, mediaPath);
         if (mExoPlayer != null){
             currentState.putLong(VIDEO_TIME, mExoPlayer.getCurrentPosition());
+            currentState.putBoolean(VIDEO_STATE, mExoPlayer.getPlayWhenReady());
         } else {
             currentState.putLong(VIDEO_TIME, 0L);
+            currentState.putBoolean(VIDEO_STATE,false);
         }
 
 
     }
 
+
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mExoPlayer != null) {
-            mExoPlayer.release();
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            //Before API level 24 release player resources early,
+            releasePlayer();
+        }
+    }
+    @Override
+    public void onStop() {
+        //API level 24+ release the player resources when the activity is no longer visible (onStop)
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
         }
     }
 }
