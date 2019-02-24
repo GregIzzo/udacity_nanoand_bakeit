@@ -2,7 +2,7 @@
 This is a project for the Udacity - Android Advanced Nanodegree. "Bake It" Recipe app
 
 # Project Overview
-This video-recipe app will allow a user to select a recipe and see video-guided steps for how to complete it. The app also includes a desktop-widget which will display a list of ingredients from the active recipe.
+This video-recipe app will allow a user to select a recipe to see the video-guided steps to make it. The app also includes a  homescreen-widget to display a convenient list of ingredients from the active recipe.
   
 Key project elements are:
   * Recipe data (JSON) is read from an online source
